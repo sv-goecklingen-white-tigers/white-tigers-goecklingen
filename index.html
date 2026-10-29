@@ -244,7 +244,27 @@ tr.log td{background:var(--bg);white-space:normal;text-align:left;padding:14px 1
 .rtable td.us{font-weight:600}
 .rtable td.sc{width:5.4rem;text-align:center;font-family:var(--f-display);font-weight:800;font-size:1.1rem}
 .rtable td.ex{font-size:.82rem;color:var(--gold)}
-@media (max-width:640px){.rtable td.ex{display:none}.report summary{grid-template-columns:4.8rem minmax(0,1fr) auto;padding:12px 14px}}
+@media (max-width:640px){.rtable td.mt{display:none}.report summary{grid-template-columns:4.8rem minmax(0,1fr) auto;padding:12px 14px}}
+
+.hl{display:inline-block;font-family:var(--f-display);font-weight:800;font-size:.8rem;letter-spacing:.04em;line-height:1.4;padding:1px 7px;border-radius:3px;margin:4px 4px 0 0;white-space:nowrap;font-variant-numeric:tabular-nums}
+.hl.max{background:var(--red);color:#fff}.hl.hf{background:var(--gold);color:#16120a}.hl.sl{background:var(--green);color:#fff}
+.hls{display:block}
+.rtable td.us .pl+.pl,.rtable td.them .pl+.pl{margin-top:4px}
+.rtable td.them{color:var(--muted)}
+.rtable td.them .hl{opacity:.8}
+.report .opp .hls{margin-top:2px}
+.pc-hl{padding:2px 12px 12px;border-top:1px solid var(--line)}
+.season-hl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:28px}
+@media (max-width:900px){.season-hl{grid-template-columns:1fr}}
+.hlcol{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0}
+.hlcol h4{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:1.35rem;margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.hlcol h4 span{font-style:normal;font-size:.9rem;color:var(--muted);font-weight:700}
+.hlcol ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.hlcol li{display:grid;grid-template-columns:4.6rem minmax(0,1fr);gap:10px;align-items:start}
+.hlcol li .hl{margin:1px 0 0;text-align:center}
+.hlcol li b{font-weight:600}
+.hlcol li small{display:block;color:var(--muted);font-size:.82rem}
+.hlcol .none{color:var(--dim);font-size:.9rem}
 
 /* Verein */
 .club{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start}
@@ -379,13 +399,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
         <button type="button" id="f-t2" data-team="T2" aria-pressed="false">Team 2</button>
       </div>
       <div class="seg" role="group" aria-label="Wettbewerb">
-        <button type="button" id="f-liga" data-comp="liga" aria-pressed="true">Nur Liga</button>
-        <button type="button" id="f-cup" data-comp="all" aria-pressed="false">Liga + Pokal</button>
+        <button type="button" id="f-cup" data-comp="all" aria-pressed="true">Alle Spiele</button>
+        <button type="button" id="f-liga" data-comp="liga" aria-pressed="false">Nur Liga</button>
       </div>
     </div>
 
     <div class="leaders" id="leaders"></div>
     <div class="cards" id="cards"></div>
+    <div class="season-hl" id="season-hl"></div>
 
     <div class="stats scroll" id="stats-wrap">
       <table id="stats">
@@ -404,7 +425,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
         <tbody></tbody>
       </table>
     </div>
-    <p class="note">Punkte wie in der BDL-Statistik: Einzelsieg 2, Doppelsieg 1. Max zählt alle Aufnahmen ab 171, so wie sie im Spielbericht stehen. Short Legs im Doppel werden beiden Spielern gutgeschrieben.</p>
+    <p class="note">Standardmäßig zählen Liga und Pokal; „Nur Liga“ entspricht der offiziellen BDL-Statistik. Punkte wie bei der BDL: Einzelsieg 2, Doppelsieg 1. Max zählt alle Aufnahmen ab 171, so wie sie im Spielbericht stehen. Short Legs im Doppel werden beiden Spielern gutgeschrieben.</p>
 
     <h3 style="margin-top:56px">Spielberichte</h3>
     <div class="reports" id="reports"></div>
@@ -596,16 +617,17 @@ const CUP = [
   { team:"T1", round:"2. Runde", date:"2027-01-08", home:false, opp:"Connect Pälzer Klobber", res:null }
 ];
 
-/* Spielberichte. Partie: [Art E/D, unsere Spieler, Gegner, Legs [wir, gegner], Max je Spieler, High Finish je Spieler, Short Legs] */
+/* Spielberichte. Partie: [Art E/D, unsere Spieler, Gegner, Legs [wir, gegner], Max je Spieler, High Finish je Spieler, Short Legs,
+   dann dasselbe für den Gegner: Max je Spieler, High Finish je Spieler, Short Legs] */
 const GAMES = [
-{team:"T1",comp:"liga",date:"2026-09-11",id:"267920",opp:"PSK Darts Team Blue",home:true,sets:[4,8],legs:[22,31],m:[["E",["Dominic Hanke"],["Kenny Debellemaniere"],[0,3],[[]],[[]],[]],["E",["Marcel Schulz"],["Daniel Francisco Lobato Musler"],[3,2],[[]],[[]],[]],["E",["Thomas Bauer"],["Christian Preus"],[3,1],[[]],[[]],[]],["E",["Tobias Bergdoll"],["Sascha Brückmann"],[2,3],[[]],[[]],[]],["D",["Dominic Hanke","Thomas Bauer"],["Kenny Debellemaniere","Sascha Brückmann"],[2,3],[[],[]],[[],[]],[]],["D",["Christopher Lamb","Marcel Schulz"],["Christian Preus","Nico Gerig"],[2,3],[[],[]],[[],[]],[]],["E",["Christoph Kuntz"],["Peter Merkel"],[2,3],[[]],[[]],[]],["E",["Marcel Schulz"],["Christian Preus"],[0,3],[[]],[[]],[]],["E",["Dominic Hanke"],["Kenny Debellemaniere"],[1,3],[["180"]],[[]],["18"]],["E",["Tobias Bergdoll"],["Sascha Brückmann"],[3,2],[[]],[["119"]],["18"]],["D",["Christopher Lamb","Tobias Bergdoll"],["Nico Gerig","Peter Merkel"],[3,2],[[],[]],[[],[]],[]],["D",["Christoph Kuntz","Thomas Bauer"],["Daniel Francisco Lobato Musler","Sascha Brückmann"],[1,3],[[],[]],[[],[]],[]]]},
-{team:"T1",comp:"liga",date:"2026-09-25",id:"267924",opp:"DC Moskitos 1",home:false,sets:[5,7],legs:[23,27],m:[["E",["Marcel Schulz"],["Christian Gasperini"],[3,2],[[]],[[]],[]],["E",["Dominic Hanke"],["Sebastian Gräßle"],[0,3],[["180"]],[[]],[]],["E",["Thomas Bauer"],["Jens Deutscher"],[3,0],[[]],[[]],[]],["E",["Christopher Lamb"],["Holger Grass"],[1,3],[[]],[[]],[]],["D",["Dominic Hanke","Marcel Schulz"],["Christian Gasperini","Holger Grass"],[2,3],[[],["180"]],[[],[]],[]],["D",["Thomas Bauer","Etienne Völlinger"],["Sebastian Gräßle","Til Hedwig"],[1,3],[[],[]],[[],[]],[]],["E",["Thomas Bauer"],["Christian Gasperini"],[1,3],[[]],[[]],[]],["E",["Dominic Hanke"],["Holger Grass"],[3,1],[[]],[[]],[]],["E",["Marcel Schulz"],["Til Hedwig"],[3,2],[[]],[[]],["18"]],["E",["Tobias Bergdoll"],["Sebastian Gräßle"],[1,3],[[]],[[]],[]],["D",["Marcel Schulz","Christopher Lamb"],["Jens Deutscher","Holger Grass"],[2,3],[["180"],[]],[[],[]],[]],["D",["Dominic Hanke","Thomas Bauer"],["Sebastian Gräßle","Christian Gasperini"],[3,1],[[],[]],[[],[]],["16","18"]]]},
-{team:"T1",comp:"liga",date:"2026-10-09",id:"267928",opp:"D.T.C.",home:false,sets:[8,4],legs:[29,20],m:[["E",["Christopher Lamb"],["Sven Fiedler"],[0,3],[[]],[[]],[]],["E",["Thomas Bauer"],["Tarek Dürr"],[3,1],[[]],[[]],[]],["E",["Marcel Schulz"],["Jamal Schulte"],[3,0],[[]],[[]],[]],["E",["Dominic Hanke"],["Dominik Koch"],[3,2],[[]],[[]],[]],["D",["Tobias Bergdoll","Marcel Schulz"],["Tarek Dürr","Dominik Koch"],[2,3],[[],[]],[[],[]],[]],["D",["Thomas Bauer","Etienne Völlinger"],["Sven Fiedler","Jamal Schulte"],[3,1],[[],[]],[[],[]],[]],["E",["Tobias Bergdoll"],["Sven Fiedler"],[1,3],[[]],[[]],[]],["E",["Marcel Schulz"],["Tarek Dürr"],[3,0],[[]],[[]],[]],["E",["Etienne Völlinger"],["Jamal Schulte"],[3,1],[[]],[[]],[]],["E",["Dominic Hanke"],["Dominik Koch"],[3,2],[[]],[[]],[]],["D",["Dominic Hanke","Tobias Bergdoll"],["Tarek Dürr","Sven Fiedler"],[2,3],[[],[]],[[],[]],[]],["D",["Thomas Bauer","Christopher Lamb"],["Dominik Koch","Jamal Schulte"],[3,1],[[],[]],[[],[]],[]]]},
-{team:"T1",comp:"liga",date:"2026-10-23",id:"267932",opp:"Taraxacuma 26er",home:true,sets:[6,6],legs:[27,24],m:[["E",["Jannes Rogge"],["Levin Mattner"],[2,3],[[]],[[]],[]],["E",["Dominic Hanke"],["Lenny Gallus"],[0,3],[[]],[[]],[]],["E",["Thomas Bauer"],["Julian Wolf"],[3,0],[[]],[[]],[]],["E",["Marcel Schulz"],["Simon Laug"],[3,2],[[]],[[]],[]],["D",["Thomas Bauer","Dominic Hanke"],["Lenny Gallus","Fabio Klinger"],[3,0],[["171"],[]],[[],[]],["16"]],["D",["Etienne Völlinger","Marco Naujoks"],["Levin Mattner","Simon Laug"],[3,0],[[],[]],[[],[]],[]],["E",["Dominic Hanke"],["Julian Wolf"],[2,3],[["180"]],[[]],[]],["E",["Thomas Bauer"],["Lenny Gallus"],[1,3],[[]],[[]],[]],["E",["Jannes Rogge"],["Simon Laug"],[2,3],[[]],[[]],[]],["E",["Marcel Schulz"],["Levin Mattner"],[3,2],[[]],[[]],[]],["D",["Dominic Hanke","Etienne Völlinger"],["Lenny Gallus","Julian Wolf"],[2,3],[[],[]],[[],[]],[]],["D",["Marcel Schulz","Thomas Bauer"],["Simon Laug","Björn Domaschke"],[3,2],[[],[]],[["103"],[]],[]]]},
-{team:"T2",comp:"liga",date:"2026-09-18",id:"268279",opp:"Plumbata Romulus",home:false,sets:[3,9],legs:[14,32],m:[["E",["Marcus Klöcker"],["Niklas Sokol"],[3,1],[[]],[[]],[]],["E",["Stefan Knoll"],["Andreas Vetter"],[2,3],[["180"]],[[]],[]],["E",["Niklas Ludwig"],["Dennis Becker"],[2,3],[[]],[[]],[]],["E",["Edelbert Lang"],["Mohamed Mosallam Assem"],[0,3],[[]],[[]],[]],["D",["Stefan Knoll","Niklas Ludwig"],["Torsten Just","Mohamed Mosallam Assem"],[0,3],[[],[]],[[],[]],[]],["D",["Marcus Klöcker","Edelbert Lang"],["Christina Hirschfeld","Andreas Vetter"],[1,3],[[],[]],[[],[]],[]],["E",["Niklas Ludwig"],["Christina Hirschfeld"],[0,3],[[]],[[]],[]],["E",["Stefan Knoll"],["Torsten Just"],[3,2],[[]],[[]],[]],["E",["Edelbert Lang"],["Mohamed Mosallam Assem"],[0,3],[[]],[[]],[]],["E",["Marcus Klöcker"],["Andreas Vetter"],[0,3],[[]],[[]],[]],["D",["Marcus Klöcker","Stefan Knoll"],["Dennis Becker","Niklas Sokol"],[3,2],[[],["180"]],[[],[]],[]],["D",["Edelbert Lang","Niklas Ludwig"],["Torsten Just","Christina Hirschfeld"],[0,3],[[],[]],[[],[]],[]]]},
-{team:"T2",comp:"liga",date:"2026-10-02",id:"268283",opp:"501 Jacky Darts Studenten",home:true,sets:[7,5],legs:[25,23],m:[["E",["Stefan Knoll"],["Jonathan Götz"],[3,2],[[]],[["130"]],[]],["E",["Marcus Klöcker"],["Joel Wingerter"],[3,2],[[]],[[]],[]],["E",["Niklas Ludwig"],["Hartmut Schmidt"],[1,3],[[]],[[]],[]],["E",["Manuel Schmidt"],["Tim Reichelt"],[3,0],[[]],[[]],[]],["D",["Manuel Schmidt","Niklas Ludwig"],["Florian Klein","Maximilian Schmitt"],[3,1],[[],[]],[[],[]],[]],["D",["Stefan Knoll","Lucas Stugard"],["Joel Wingerter","Tim Reichelt"],[3,2],[[],[]],[[],[]],[]],["E",["Niklas Ludwig"],["Maximilian Schmitt"],[0,3],[[]],[[]],[]],["E",["Stefan Knoll"],["Florian Klein"],[3,0],[[]],[[]],[]],["E",["Manuel Schmidt"],["Hartmut Schmidt"],[2,3],[[]],[[]],[]],["E",["Lucas Stugard"],["Joel Wingerter"],[1,3],[[]],[[]],[]],["D",["Stefan Knoll","Marcus Klöcker"],["Maximilian Schmitt","Tim Reichelt"],[3,1],[[],[]],[[],[]],[]],["D",["Manuel Schmidt","Lucas Stugard"],["Joel Wingerter","Hartmut Schmidt"],[0,3],[[],[]],[[],[]],[]]]},
-{team:"T2",comp:"pokal",date:"2026-10-16",id:"269310",opp:"Taraxacuma 26er",home:true,sets:[6,6],legs:[21,30],m:[["E",["Marcus Klöcker"],["Julian Wolf"],[1,3],[[]],[[]],[]],["E",["Stefan Knoll"],["Levin Mattner"],[0,3],[[]],[[]],[]],["E",["Lucas Stugard"],["Simon Laug"],[0,3],[[]],[[]],[]],["E",["Manuel Schmidt"],["Fabio Klinger"],[3,1],[[]],[[]],[]],["D",["Stefan Knoll","Lucas Stugard"],["Julian Wolf","Fabio Klinger"],[3,2],[[],[]],[[],[]],[]],["D",["Manuel Schmidt","Niklas Ludwig"],["Levin Mattner","Simon Laug"],[1,3],[[],[]],[[],[]],[]],["E",["Stefan Knoll"],["Fabio Klinger"],[3,2],[[]],[[]],[]],["E",["Manuel Schmidt"],["Simon Laug"],[0,3],[[]],[[]],[]],["E",["Lucas Stugard"],["Julian Wolf"],[3,1],[[]],[[]],[]],["E",["Niklas Ludwig"],["Levin Mattner"],[0,3],[[]],[[]],[]],["D",["Stefan Knoll","Niklas Ludwig"],["Jochen Kleinert","Björn Domaschke"],[3,2],[[],[]],[[],[]],[]],["D",["Manuel Schmidt","Lucas Stugard"],["Levin Mattner","Julian Wolf"],[3,2],[[],[]],[[],[]],[]]]},
-{team:"T1",comp:"pokal",date:"2026-10-16",id:"269336",opp:"DJK Dossenheim 1927 e.V. Stobrecher Vadder",home:false,sets:[11,1],legs:[35,12],m:[["E",["Christopher Lamb"],["Matthias Lorenz"],[3,1],[[]],[[]],[]],["E",["Marcel Schulz"],["Michael Sommer"],[3,1],[["180"]],[[]],[]],["E",["Jannes Rogge"],["Felix Roos"],[3,1],[["180"]],[[]],[]],["E",["Etienne Völlinger"],["Robin Skiba"],[3,2],[[]],[["114"]],[]],["D",["Christopher Lamb","Jannes Rogge"],["Gerhard Steiger","Fabian Jank"],[3,0],[[],[]],[[],[]],[]],["D",["Marcel Schulz","Etienne Völlinger"],["Robin Skiba","Matthias Lorenz"],[3,1],[[],[]],[[],[]],[]],["E",["Marcel Schulz"],["Felix Roos"],[2,3],[["180"]],[[]],[]],["E",["Jannes Rogge"],["Fabian Jank"],[3,1],[[]],[[]],[]],["E",["Christopher Lamb"],["Gerhard Steiger"],[3,0],[[]],[[]],[]],["E",["Etienne Völlinger"],["Michael Sommer"],[3,0],[[]],[[]],[]],["D",["Etienne Völlinger","Jannes Rogge"],["Michael Sommer","Matthias Lorenz"],[3,0],[[],[]],[[],[]],[]],["D",["Marcel Schulz","Christopher Lamb"],["Fabian Jank","Robin Skiba"],[3,2],[[],[]],[[],[]],[]]]}
+{team:"T1",comp:"liga",date:"2026-09-11",id:"267920",opp:"PSK Darts Team Blue",home:true,sets:[4,8],legs:[22,31],m:[["E",["Dominic Hanke"],["Kenny Debellemaniere"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Daniel Francisco Lobato Musler"],[3,2],[[]],[[]],[],[[]],[["153"]],["18"]],["E",["Thomas Bauer"],["Christian Preus"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Tobias Bergdoll"],["Sascha Brückmann"],[2,3],[[]],[[]],[],[[]],[[]],["18"]],["D",["Dominic Hanke","Thomas Bauer"],["Kenny Debellemaniere","Sascha Brückmann"],[2,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Christopher Lamb","Marcel Schulz"],["Christian Preus","Nico Gerig"],[2,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Christoph Kuntz"],["Peter Merkel"],[2,3],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Christian Preus"],[0,3],[[]],[[]],[],[[]],[[]],["16"]],["E",["Dominic Hanke"],["Kenny Debellemaniere"],[1,3],[["180"]],[[]],["18"],[["180"]],[[]],[]],["E",["Tobias Bergdoll"],["Sascha Brückmann"],[3,2],[[]],[["119"]],["18"],[[]],[["119"]],[]],["D",["Christopher Lamb","Tobias Bergdoll"],["Nico Gerig","Peter Merkel"],[3,2],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Christoph Kuntz","Thomas Bauer"],["Daniel Francisco Lobato Musler","Sascha Brückmann"],[1,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]]]},
+{team:"T1",comp:"liga",date:"2026-09-25",id:"267924",opp:"DC Moskitos 1",home:false,sets:[5,7],legs:[23,27],m:[["E",["Marcel Schulz"],["Christian Gasperini"],[3,2],[[]],[[]],[],[[]],[[]],[]],["E",["Dominic Hanke"],["Sebastian Gräßle"],[0,3],[["180"]],[[]],[],[[]],[[]],[]],["E",["Thomas Bauer"],["Jens Deutscher"],[3,0],[[]],[[]],[],[[]],[[]],[]],["E",["Christopher Lamb"],["Holger Grass"],[1,3],[[]],[[]],[],[[]],[[]],[]],["D",["Dominic Hanke","Marcel Schulz"],["Christian Gasperini","Holger Grass"],[2,3],[[],["180"]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Thomas Bauer","Etienne Völlinger"],["Sebastian Gräßle","Til Hedwig"],[1,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Thomas Bauer"],["Christian Gasperini"],[1,3],[[]],[[]],[],[[]],[[]],[]],["E",["Dominic Hanke"],["Holger Grass"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Til Hedwig"],[3,2],[[]],[[]],["18"],[[]],[["107"]],[]],["E",["Tobias Bergdoll"],["Sebastian Gräßle"],[1,3],[[]],[[]],[],[[]],[[]],[]],["D",["Marcel Schulz","Christopher Lamb"],["Jens Deutscher","Holger Grass"],[2,3],[["180"],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Dominic Hanke","Thomas Bauer"],["Sebastian Gräßle","Christian Gasperini"],[3,1],[[],[]],[[],[]],["16","18"],[[],[]],[["115"],[]],[]]]},
+{team:"T1",comp:"liga",date:"2026-10-09",id:"267928",opp:"D.T.C.",home:false,sets:[8,4],legs:[29,20],m:[["E",["Christopher Lamb"],["Sven Fiedler"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Thomas Bauer"],["Tarek Dürr"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Jamal Schulte"],[3,0],[[]],[[]],[],[[]],[[]],[]],["E",["Dominic Hanke"],["Dominik Koch"],[3,2],[[]],[[]],[],[[]],[[]],[]],["D",["Tobias Bergdoll","Marcel Schulz"],["Tarek Dürr","Dominik Koch"],[2,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Thomas Bauer","Etienne Völlinger"],["Sven Fiedler","Jamal Schulte"],[3,1],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Tobias Bergdoll"],["Sven Fiedler"],[1,3],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Tarek Dürr"],[3,0],[[]],[[]],[],[[]],[[]],[]],["E",["Etienne Völlinger"],["Jamal Schulte"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Dominic Hanke"],["Dominik Koch"],[3,2],[[]],[[]],[],[[]],[[]],[]],["D",["Dominic Hanke","Tobias Bergdoll"],["Tarek Dürr","Sven Fiedler"],[2,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Thomas Bauer","Christopher Lamb"],["Dominik Koch","Jamal Schulte"],[3,1],[[],[]],[[],[]],[],[[],[]],[[],[]],[]]]},
+{team:"T1",comp:"liga",date:"2026-10-23",id:"267932",opp:"Taraxacuma 26er",home:true,sets:[6,6],legs:[27,24],m:[["E",["Jannes Rogge"],["Levin Mattner"],[2,3],[[]],[[]],[],[[]],[[]],[]],["E",["Dominic Hanke"],["Lenny Gallus"],[0,3],[[]],[[]],[],[[]],[[]],["14"]],["E",["Thomas Bauer"],["Julian Wolf"],[3,0],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Simon Laug"],[3,2],[[]],[[]],[],[[]],[[]],[]],["D",["Thomas Bauer","Dominic Hanke"],["Lenny Gallus","Fabio Klinger"],[3,0],[["171"],[]],[[],[]],["16"],[["180","180"],[]],[[],[]],[]],["D",["Etienne Völlinger","Marco Naujoks"],["Levin Mattner","Simon Laug"],[3,0],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Dominic Hanke"],["Julian Wolf"],[2,3],[["180"]],[[]],[],[[]],[[]],[]],["E",["Thomas Bauer"],["Lenny Gallus"],[1,3],[[]],[[]],[],[[]],[[]],["15"]],["E",["Jannes Rogge"],["Simon Laug"],[2,3],[[]],[[]],[],[[]],[[]],[]],["E",["Marcel Schulz"],["Levin Mattner"],[3,2],[[]],[[]],[],[[]],[[]],[]],["D",["Dominic Hanke","Etienne Völlinger"],["Lenny Gallus","Julian Wolf"],[2,3],[[],[]],[[],[]],[],[["180"],[]],[[],[]],[]],["D",["Marcel Schulz","Thomas Bauer"],["Simon Laug","Björn Domaschke"],[3,2],[[],[]],[["103"],[]],[],[[],[]],[[],[]],[]]]},
+{team:"T2",comp:"liga",date:"2026-09-18",id:"268279",opp:"Plumbata Romulus",home:false,sets:[3,9],legs:[14,32],m:[["E",["Marcus Klöcker"],["Niklas Sokol"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Stefan Knoll"],["Andreas Vetter"],[2,3],[["180"]],[[]],[],[[]],[[]],[]],["E",["Niklas Ludwig"],["Dennis Becker"],[2,3],[[]],[[]],[],[[]],[[]],[]],["E",["Edelbert Lang"],["Mohamed Mosallam Assem"],[0,3],[[]],[[]],[],[[]],[[]],[]],["D",["Stefan Knoll","Niklas Ludwig"],["Torsten Just","Mohamed Mosallam Assem"],[0,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Marcus Klöcker","Edelbert Lang"],["Christina Hirschfeld","Andreas Vetter"],[1,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Niklas Ludwig"],["Christina Hirschfeld"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Stefan Knoll"],["Torsten Just"],[3,2],[[]],[[]],[],[[]],[[]],[]],["E",["Edelbert Lang"],["Mohamed Mosallam Assem"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Marcus Klöcker"],["Andreas Vetter"],[0,3],[[]],[[]],[],[[]],[[]],[]],["D",["Marcus Klöcker","Stefan Knoll"],["Dennis Becker","Niklas Sokol"],[3,2],[[],["180"]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Edelbert Lang","Niklas Ludwig"],["Torsten Just","Christina Hirschfeld"],[0,3],[[],[]],[[],[]],[],[[],[]],[[],[]],[]]]},
+{team:"T2",comp:"liga",date:"2026-10-02",id:"268283",opp:"501 Jacky Darts Studenten",home:true,sets:[7,5],legs:[25,23],m:[["E",["Stefan Knoll"],["Jonathan Götz"],[3,2],[[]],[["130"]],[],[[]],[[]],[]],["E",["Marcus Klöcker"],["Joel Wingerter"],[3,2],[[]],[[]],[],[[]],[["139"]],[]],["E",["Niklas Ludwig"],["Hartmut Schmidt"],[1,3],[[]],[[]],[],[[]],[[]],[]],["E",["Manuel Schmidt"],["Tim Reichelt"],[3,0],[[]],[[]],[],[[]],[[]],[]],["D",["Manuel Schmidt","Niklas Ludwig"],["Florian Klein","Maximilian Schmitt"],[3,1],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Stefan Knoll","Lucas Stugard"],["Joel Wingerter","Tim Reichelt"],[3,2],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Niklas Ludwig"],["Maximilian Schmitt"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Stefan Knoll"],["Florian Klein"],[3,0],[[]],[[]],[],[[]],[[]],[]],["E",["Manuel Schmidt"],["Hartmut Schmidt"],[2,3],[[]],[[]],[],[["180"]],[[]],[]],["E",["Lucas Stugard"],["Joel Wingerter"],[1,3],[[]],[[]],[],[[]],[[]],["17"]],["D",["Stefan Knoll","Marcus Klöcker"],["Maximilian Schmitt","Tim Reichelt"],[3,1],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Manuel Schmidt","Lucas Stugard"],["Joel Wingerter","Hartmut Schmidt"],[0,3],[[],[]],[[],[]],[],[[],[]],[["160"],[]],[]]]},
+{team:"T2",comp:"pokal",date:"2026-10-16",id:"269310",opp:"Taraxacuma 26er",home:true,sets:[6,6],legs:[21,30],m:[["E",["Marcus Klöcker"],["Julian Wolf"],[1,3],[[]],[[]],[],[[]],[[]],["18","18"]],["E",["Stefan Knoll"],["Levin Mattner"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Lucas Stugard"],["Simon Laug"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Manuel Schmidt"],["Fabio Klinger"],[3,1],[[]],[[]],[],[[]],[[]],[]],["D",["Stefan Knoll","Lucas Stugard"],["Julian Wolf","Fabio Klinger"],[3,2],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Manuel Schmidt","Niklas Ludwig"],["Levin Mattner","Simon Laug"],[1,3],[[],[]],[[],[]],[],[[],[]],[[],[]],["18"]],["E",["Stefan Knoll"],["Fabio Klinger"],[3,2],[[]],[[]],[],[[]],[[]],[]],["E",["Manuel Schmidt"],["Simon Laug"],[0,3],[[]],[[]],[],[[]],[[]],[]],["E",["Lucas Stugard"],["Julian Wolf"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Niklas Ludwig"],["Levin Mattner"],[0,3],[[]],[[]],[],[[]],[[]],[]],["D",["Stefan Knoll","Niklas Ludwig"],["Jochen Kleinert","Björn Domaschke"],[3,2],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Manuel Schmidt","Lucas Stugard"],["Levin Mattner","Julian Wolf"],[3,2],[[],[]],[[],[]],[],[[],[]],[[],[]],[]]]},
+{team:"T1",comp:"pokal",date:"2026-10-16",id:"269336",opp:"DJK Dossenheim 1927 e.V. Stobrecher Vadder",home:false,sets:[11,1],legs:[35,12],m:[["E",["Christopher Lamb"],["Matthias Lorenz"],[3,1],[[]],[[]],[],[["180"]],[[]],[]],["E",["Marcel Schulz"],["Michael Sommer"],[3,1],[["180"]],[[]],[],[[]],[[]],[]],["E",["Jannes Rogge"],["Felix Roos"],[3,1],[["180"]],[[]],[],[[]],[[]],[]],["E",["Etienne Völlinger"],["Robin Skiba"],[3,2],[[]],[["114"]],[],[[]],[[]],[]],["D",["Christopher Lamb","Jannes Rogge"],["Gerhard Steiger","Fabian Jank"],[3,0],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Marcel Schulz","Etienne Völlinger"],["Robin Skiba","Matthias Lorenz"],[3,1],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["E",["Marcel Schulz"],["Felix Roos"],[2,3],[["180"]],[[]],[],[[]],[[]],[]],["E",["Jannes Rogge"],["Fabian Jank"],[3,1],[[]],[[]],[],[[]],[[]],[]],["E",["Christopher Lamb"],["Gerhard Steiger"],[3,0],[[]],[[]],[],[[]],[[]],[]],["E",["Etienne Völlinger"],["Michael Sommer"],[3,0],[[]],[[]],[],[[]],[[]],[]],["D",["Etienne Völlinger","Jannes Rogge"],["Michael Sommer","Matthias Lorenz"],[3,0],[[],[]],[[],[]],[],[[],[]],[[],[]],[]],["D",["Marcel Schulz","Christopher Lamb"],["Fabian Jank","Robin Skiba"],[3,2],[[],[]],[[],[]],[],[[],[]],[[],[]],[]]]}
 ];
 
 const PHOTOS = [
@@ -801,12 +823,12 @@ function renderLeagues(){
 }
 
 /* ===== Statistik ===== */
-let fTeam = "all", fComp = "liga", sortK = "pts", sortDir = -1, openPlayer = null;
+let fTeam = "all", fComp = "all", sortK = "pts", sortDir = -1, openPlayer = null;
 
 function computeStats(){
   const P = new Map();
   const get = (name, team) => {
-    if (!P.has(name)) P.set(name, { name, teams:new Set(), nights:new Set(), ew:0, el:0, dw:0, dl:0, lw:0, ll:0, mx:0, hf:[], sl:[], log:[] });
+    if (!P.has(name)) P.set(name, { name, teams:new Set(), nights:new Set(), ew:0, el:0, dw:0, dl:0, lw:0, ll:0, mx:0, mxv:[], hf:[], sl:[], log:[] });
     const p = P.get(name); p.teams.add(team); return p;
   };
   for (const g of GAMES) {
@@ -820,7 +842,7 @@ function computeStats(){
         if (type === "E") won ? p.ew++ : p.el++; else won ? p.dw++ : p.dl++;
         p.lw += legs[0]; p.ll += legs[1];
         const myMx = (mx[i] || []), myHf = (hf[i] || []).map(Number);
-        p.mx += myMx.length; p.hf.push(...myHf); p.sl.push(...sl.map(Number));
+        p.mx += myMx.length; p.mxv.push(...myMx); p.hf.push(...myHf); p.sl.push(...sl.map(Number));
         const partner = type === "D" ? ours.filter(n => n !== name)[0] : null;
         const extra = [...myMx.map(v => v === "180" ? "180" : `Max ${v}`), ...myHf.map(v => `HF ${v}`), ...sl.map(v => `${v}-Darter`)].join(" · ");
         p.log.push({ date:g.date, opp:g.opp, comp:g.comp, type, partner, vs:theirs.join(" / "), legs, won, extra });
@@ -877,6 +899,7 @@ function renderCards(list){
         <div><b>${p.ep < 0 ? "–" : Math.round(p.ep * 100) + "%"}</b><span>Quote</span></div>
         <div><b>${p.mx || "–"}</b><span>Max</span></div>
       </div>
+      ${playerChips(p) ? `<div class="pc-hl">${playerChips(p)}</div>` : ""}
     </button>`).join("");
 }
 
@@ -884,6 +907,7 @@ function renderStats(){
   const list = computeStats();
   renderLeaders(list);
   renderCards(list);
+  renderSeasonHighlights();
   list.sort((a,b) => {
     const x = sortVal(a, sortK), y = sortVal(b, sortK);
     if (typeof x === "string") return sortDir * -1 * x.localeCompare(y, "de");
@@ -916,22 +940,67 @@ function renderStats(){
   });
 }
 
+/* ===== Highlights ===== */
+const chip = (cls, txt) => `<span class="hl ${cls}">${txt}</span>`;
+const chips = (mx = [], hf = [], sl = []) => [
+  ...mx.map(v => chip("max", v === "180" ? "180" : `Max ${v}`)),
+  ...hf.map(v => chip("hf", `${v} Finish`)),
+  ...sl.map(v => chip("sl", `${v}-Darter`))
+].join("");
+function playerChips(p){
+  const n180 = p.mxv.filter(v => v === "180").length;
+  return [
+    n180 ? chip("max", n180 > 1 ? `${n180}× 180` : "180") : "",
+    ...p.mxv.filter(v => v !== "180").map(v => chip("max", `Max ${v}`)),
+    ...p.hf.slice().sort((a,b) => b - a).map(v => chip("hf", `${v} Finish`)),
+    ...p.sl.slice().sort((a,b) => a - b).map(v => chip("sl", `${v}-Darter`))
+  ].join("");
+}
+// Alle eigenen Highlights der Saison, passend zu den Filtern
+function renderSeasonHighlights(){
+  const mx = [], hf = [], sl = [];
+  for (const g of GAMES) {
+    if (fComp === "liga" && g.comp !== "liga") continue;
+    if (fTeam !== "all" && g.team !== fTeam) continue;
+    const where = `${fmtShort(g.date)} · ${g.comp === "pokal" ? "Pokal " : ""}${g.home ? "gegen" : "bei"} ${esc(g.opp)}`;
+    for (const [type, ours, , , m, h, s] of g.m) {
+      ours.forEach((name, i) => {
+        (m[i] || []).forEach(v => mx.push({ v, who:name, where, date:g.date }));
+        (h[i] || []).forEach(v => hf.push({ v:+v, who:name, where, date:g.date }));
+      });
+      s.forEach(v => sl.push({ v:+v, who:ours.join(" / "), where, date:g.date }));
+    }
+  }
+  mx.sort((a,b) => a.date.localeCompare(b.date));
+  hf.sort((a,b) => b.v - a.v);
+  sl.sort((a,b) => a.v - b.v || a.date.localeCompare(b.date));
+  const col = (title, list, cls, fmt) => `<div class="hlcol"><h4>${title}<span>${list.length}</span></h4>${
+    list.length ? `<ol>${list.map(x => `<li>${chip(cls, fmt(x.v))}<span><b>${esc(x.who)}</b><small>${x.where}</small></span></li>`).join("")}</ol>` : `<p class="none">Noch keine in dieser Auswahl.</p>`}</div>`;
+  $("#season-hl").innerHTML =
+    col("Maxima", mx, "max", v => v === "180" ? "180" : `Max ${v}`) +
+    col("High Finishes", hf, "hf", v => v) +
+    col("Short Legs", sl, "sl", v => `${v} Darts`);
+}
+
 function renderReports(){
   const games = GAMES.slice().sort((a,b) => b.date.localeCompare(a.date));
+  const side = (players, mx, hf, sl) =>
+    players.map((p, i) => `<div class="pl">${esc(p)}${(mx[i] || []).length || (hf[i] || []).length ? `<span class="hls">${chips(mx[i], hf[i])}</span>` : ""}</div>`).join("")
+    + (sl.length ? `<span class="hls">${chips([], [], sl)}</span>` : "");
   $("#reports").innerHTML = games.map(g => {
     const o = g.comp === "pokal" && g.team === "T2" ? "N" : outcome(g.sets);
-    const rows = g.m.map(([type, ours, theirs, legs, mx, hf, sl]) => {
-      const extra = [...mx.flat().map(v => v === "180" ? "180" : `Max ${v}`), ...hf.flat().map(v => `HF ${v}`), ...sl.map(v => `${v}-Darter`)].join(" · ");
+    const ourMx = g.m.flatMap(m => m[4].flat()), ourHf = g.m.flatMap(m => m[5].flat()), ourSl = g.m.flatMap(m => m[6]);
+    const rows = g.m.map(([type, ours, theirs, legs, mx, hf, sl, omx = [], ohf = [], osl = []]) => {
       const w = legs[0] > legs[1];
-      return `<tr><td class="l mt">${type === "E" ? "Einzel" : "Doppel"}</td><td class="l us">${ours.map(esc).join(" / ")}</td>
+      return `<tr><td class="l mt">${type === "E" ? "Einzel" : "Doppel"}</td><td class="l us">${side(ours, mx, hf, sl)}</td>
         <td class="sc"><span class="badge ${w ? "S" : "N"}" style="margin-right:6px">${w ? "S" : "N"}</span>${legs[0]}:${legs[1]}</td>
-        <td class="l">${theirs.map(esc).join(" / ")}</td><td class="l ex">${extra}</td></tr>`;
+        <td class="l them">${side(theirs, omx, ohf, osl)}</td></tr>`;
     }).join("");
     return `<details class="report">
       <summary><span class="meta">${fmtShort(g.date)}<small>${g.comp === "pokal" ? "Pokal" : TEAMS[g.team].league}</small></span>
-        <span class="opp">${TEAMS[g.team].name} ${g.home ? "gegen" : "bei"} ${esc(g.opp)}<small>${g.home ? "Heim" : "Auswärts"} · Legs ${g.legs[0]}:${g.legs[1]}</small></span>
+        <span class="opp">${TEAMS[g.team].name} ${g.home ? "gegen" : "bei"} ${esc(g.opp)}<small>${g.home ? "Heim" : "Auswärts"} · Legs ${g.legs[0]}:${g.legs[1]}</small>${ourMx.length + ourHf.length + ourSl.length ? `<span class="hls">${chips(ourMx, ourHf, ourSl)}</span>` : ""}</span>
         <span class="res"><span class="badge ${o}">${o}</span>${g.sets[0]}:${g.sets[1]}</span></summary>
-      <div class="body"><div class="scroll"><table class="rtable"><tbody>${rows}</tbody></table></div>
+      <div class="body"><div class="scroll"><table class="rtable"><thead><tr><th class="l mt"></th><th class="l">White Tigers</th><th style="text-align:center">Legs</th><th class="l">${esc(g.opp)}</th></tr></thead><tbody>${rows}</tbody></table></div>
         <p class="note"><a href="${BDL}${g.id}.html" target="_blank" rel="noopener">Original-Spielbericht bei der BDL</a></p></div>
     </details>`;
   }).join("");
