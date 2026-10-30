@@ -2,529 +2,432 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>White Tigers Göcklingen</title>
 <meta name="description" content="White Tigers – Dartabteilung des SV Rot-Weiß Göcklingen 1946 e.V. Tabellen, Spielpläne und Spielerstatistik aus der Badischen Dartliga.">
 <link rel="icon" href="assets/crest.png">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
-/* Layout: TV-Übertragung im Darts-Stil. Arena-Dunkel, Ticker oben, Vollbild-Hero mit Teamfoto, Match-Center, Tabellen als Broadcast-Grafik, Spielerkarten. Einheitlich dunkel gewählt. */
-:root{
-  color-scheme:dark;
-  --bg:#07080b; --panel:#0f1116; --panel-2:#161922; --line:#232733;
-  --ink:#f3f4f6; --muted:#8d93a1; --dim:#5d6372;
-  --red:#e3111f; --red-hi:#ff2b39; --red-deep:#5c0910;
-  --green:#14a85a; --green-soft:#0d2a1b; --gold:#f2c14e; --gold-soft:#2e2510; --loss:#ff5a5f; --loss-soft:#2c1012;
-  --f-display:"Barlow Condensed", "Arial Narrow", Impact, sans-serif;
-  --f-body:"Barlow", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --r:6px;
-  --skew:-10deg;
+/* White Tigers Göcklingen */
+:root {
+  --rot: #c8102e;
+  --rot-dunkel: #9e0c24;
+  --text: #1d2025;
+  --grau: #6b7280;
+  --linie: #e5e7eb;
+  --hell: #f6f7f9;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:96px}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
-a{color:inherit}
-p{margin:0}
-.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--f-display);font-weight:900;font-style:italic;line-height:.9;text-transform:uppercase;text-wrap:balance;margin:0;letter-spacing:-.005em}
-h2{font-size:clamp(2.6rem,6.5vw,4.4rem)}
-h3{font-size:1.7rem}
-.num{font-variant-numeric:tabular-nums}
-.muted{color:var(--muted)}
-:focus-visible{outline:3px solid var(--red-hi);outline-offset:2px}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  margin: 0;
+  background: var(--hell);
+  color: var(--text);
+  font-family: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+a { color: var(--rot); }
+a:hover { color: var(--rot-dunkel); }
+h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 12px; }
+h1, h2 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
+h2 { font-size: 32px; }
+h3 { font-size: 19px; margin-top: 24px; }
+h4 { font-size: 16px; }
+p { margin: 0 0 12px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-/* Broadcast-Label: schräg angeschnittene Kennung wie in der TV-Grafik */
-.tag{display:inline-block;font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;line-height:1;padding:6px 12px 5px;background:var(--red);color:#fff;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
-.tag.ghost{background:var(--panel-2);color:var(--ink)}
-.tag.gold{background:var(--gold);color:#16120a}
-.kicker{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.9rem;color:var(--red-hi)}
-.stripes{background:repeating-linear-gradient(-58deg,transparent 0 14px,currentColor 14px 20px,transparent 20px 31px,currentColor 31px 34px,transparent 34px 52px)}
+/* Kopfzeile */
+#kopf { position: sticky; top: 0; z-index: 10; background: #15171b; border-bottom: 3px solid var(--rot); }
+#kopf .container { display: flex; align-items: center; gap: 20px; min-height: 62px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 800; text-transform: uppercase; font-size: 22px; white-space: nowrap; }
+.logo:hover { color: #fff; }
+.logo img { width: 42px; height: 38px; object-fit: cover; border-radius: 4px; background: #a7abb2; }
+#menu { margin-left: auto; }
+#menu ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+#menu a { display: block; padding: 8px 12px; border-radius: 6px; color: #d4d7dd; text-decoration: none; font-weight: 600; white-space: nowrap; }
+#menu a:hover { background: #2a2d33; color: #fff; }
 
-/* Ticker */
-.ticker{background:var(--red);color:#fff;font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.92rem;overflow:hidden;white-space:nowrap}
-.ticker .run{display:inline-flex;gap:42px;padding:7px 0;animation:tick 38s linear infinite;padding-left:100%}
-.ticker .run span::before{content:"●";margin-right:10px;font-size:.6rem;vertical-align:2px;opacity:.75}
-@keyframes tick{to{transform:translateX(-100%)}}
+/* Titelbild */
+.titelbild { position: relative; background: #222 url(assets/venue2.jpg) center 40% / cover; color: #fff; }
+.titelbild::before { content: ""; position: absolute; inset: 0; background: rgba(15, 17, 20, .62); }
+.titelbild .container { position: relative; padding-top: 70px; padding-bottom: 70px; }
+.titelbild img { width: 84px; border-radius: 6px; background: #a7abb2; margin-bottom: 14px; }
+.titelbild h1 { font-size: 56px; line-height: 1; margin-bottom: 6px; }
+.titelbild p { font-size: 19px; max-width: 560px; color: #e8e8e8; }
+.knopf { display: inline-block; background: var(--rot); color: #fff; text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 6px; margin: 6px 8px 0 0; }
+.knopf:hover { background: var(--rot-dunkel); color: #fff; }
+.knopf.hell { background: #fff; color: var(--text); }
+.knopf.hell:hover { background: #eee; color: var(--text); }
 
-/* Navigation */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:25;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;gap:22px;min-height:64px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand img{width:44px;height:40px;object-fit:cover;border-radius:4px;background:#a7abb2}
-.brand b{font-family:var(--f-display);font-weight:900;font-style:italic;font-size:1.5rem;text-transform:uppercase;line-height:.9;display:block}
-.brand small{display:block;font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:.68rem;color:var(--muted)}
-.nav ul{display:flex;gap:2px;list-style:none;margin:0 0 0 auto;padding:0;overflow-x:auto;scrollbar-width:none}
-.nav ul::-webkit-scrollbar{display:none}
-.nav ul a{display:block;padding:10px 14px;font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:1rem;text-decoration:none;color:var(--muted);white-space:nowrap;position:relative}
-.nav ul a:hover{color:var(--ink)}
-.nav ul a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:3px;background:var(--red);transform:scaleX(0);transition:transform .2s}
-.nav ul a:hover::after{transform:scaleX(1)}
-.nav .cta{margin-left:6px}
-@media (max-width:820px){.nav .wrap{flex-wrap:wrap;gap:0;padding-block:6px}.nav ul{margin:0 -14px;width:calc(100% + 28px)}.nav .cta{display:none}}
+/* Abschnitte */
+section { padding: 44px 0 0; }
+section > .container > h2 { display: flex; align-items: center; gap: 10px; }
+section > .container > h2::before { content: ""; width: 5px; height: 24px; background: var(--rot); border-radius: 2px; }
+.karte { background: #fff; border: 1px solid var(--linie); border-radius: 10px; padding: 20px 22px; margin-bottom: 18px; min-width: 0; }
+.karte > h3:first-child { margin-top: 0; }
+.raster { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.zwei { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.seitenleiste .karte { padding: 16px 18px; }
+.seitenleiste h3 { font-size: 17px; margin: 0 0 8px; color: var(--rot); }
+.seitenleiste ul { list-style: none; margin: 0; padding: 0; }
+.seitenleiste li { padding: 8px 0; border-bottom: 1px solid var(--linie); }
+.seitenleiste li:first-child { padding-top: 0; }
+.seitenleiste li:last-child { border-bottom: 0; padding-bottom: 0; }
+small, .klein { color: var(--grau); font-size: 14px; }
+.news { margin: 0; padding: 0; list-style: none; }
+.news li { padding: 14px 0; border-top: 1px solid var(--linie); }
+.news li:first-child { border-top: 0; padding-top: 0; }
+.news .datum { color: var(--grau); font-size: 14px; }
+.news b { display: block; font-size: 17px; margin: 2px 0 4px; }
 
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px 11px;font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.06em;font-size:1rem;text-decoration:none;border:0;cursor:pointer;color:#fff;background:var(--red);clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:background .15s}
-.btn:hover{background:var(--red-hi)}
-.btn.ghost{background:var(--panel-2);color:var(--ink)}
-.btn.ghost:hover{background:var(--line)}
-.btn.sm{padding:8px 16px 7px;font-size:.88rem}
-
-/* Hero */
-.hero{position:relative;overflow:hidden;background:var(--bg);border-bottom:1px solid var(--line)}
-.hero-bg{position:absolute;inset:0}
-.hero-bg{background:radial-gradient(ellipse 60% 80% at 78% 50%,color-mix(in srgb,var(--red) 22%,transparent),transparent 70%)}
-.hero-bg canvas{width:100%;height:100%;display:block}
-.hero-bg::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 90%,transparent) 34%,color-mix(in srgb,var(--bg) 20%,transparent) 64%,transparent 100%),
-  linear-gradient(0deg,var(--bg) 0%,transparent 30%)}
-@media (max-width:760px){.hero-bg canvas{opacity:.45}}
-.hero .stripes{position:absolute;left:-6%;top:0;bottom:0;width:30%;color:rgb(255 255 255 / .035);pointer-events:none}
-.hero .wrap{position:relative;padding-block:84px 76px;display:grid;gap:22px;max-width:1240px}
-.hero-crest{width:96px;aspect-ratio:284/255;border-radius:6px;overflow:hidden;background:#a7abb2;box-shadow:0 10px 40px rgb(0 0 0 / .6)}
-.hero-crest img{width:100%;height:100%;object-fit:cover;display:block}
-.hero h1{font-size:clamp(4.2rem,13vw,10.5rem);line-height:.82;letter-spacing:-.02em}
-.hero h1 .red{color:var(--red);display:block}
-.hero .lead{font-size:1.2rem;max-width:40ch;color:#c9ccd4}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
-.hero-stats{display:flex;flex-wrap:wrap;gap:0;margin-top:26px;border-top:1px solid var(--line);max-width:720px}
-.hero-stats div{padding:16px 28px 0 0;margin-right:28px;border-right:1px solid var(--line)}
-.hero-stats div:last-child{border-right:0}
-.hero-stats b{display:block;font-family:var(--f-display);font-weight:900;font-style:italic;font-size:2.6rem;line-height:1}
-.hero-stats span{font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--muted)}
-@media (max-width:640px){.hero .wrap{padding-block:48px 44px}.hero-stats div{padding-right:18px;margin-right:18px}.hero-stats b{font-size:2rem}}
-
-/* Match-Center */
-.mc{padding-block:56px 0}
-.mc-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px}
-@media (max-width:960px){.mc-grid{grid-template-columns:1fr}}
-.board{background:linear-gradient(135deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;position:relative}
-.board-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.board-top .when{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;padding:30px 20px 26px}
-.side{display:grid;gap:8px;justify-items:center;text-align:center;min-width:0}
-.side .logo{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;font-style:italic;font-size:2rem;background:var(--panel-2);border:2px solid var(--line);overflow:hidden}
-.side .logo img{width:100%;height:100%;object-fit:cover;background:#a7abb2}
-.side.us .logo{border-color:var(--red)}
-.side .nm{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:1.45rem;line-height:1;overflow-wrap:anywhere}
-.side .sub{font-size:.85rem;color:var(--muted)}
-.vs-mid{text-align:center}
-.vs-mid .v{font-family:var(--f-display);font-weight:900;font-style:italic;font-size:3rem;color:var(--red);line-height:1}
-.vs-mid .t{font-family:var(--f-display);font-weight:700;font-size:1.05rem;letter-spacing:.06em;color:var(--muted)}
-.countdown{display:flex;justify-content:center;gap:10px;padding:0 20px 24px}
-.countdown div{background:var(--bg);border:1px solid var(--line);border-radius:4px;min-width:74px;padding:8px 10px;text-align:center}
-.countdown b{display:block;font-family:var(--f-display);font-weight:900;font-size:2rem;line-height:1;font-variant-numeric:tabular-nums}
-.countdown span{font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:var(--muted)}
-@media (max-width:560px){.side .logo{width:60px;height:60px;font-size:1.4rem}.side .nm{font-size:1.1rem}.vs-mid .v{font-size:2.2rem}.countdown div{min-width:60px}}
-.side-list{display:grid;gap:12px;align-content:start}
-.mini{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:6px}
-.mini .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.mini .lbl{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.82rem;color:var(--muted)}
-.mini .d{font-family:var(--f-display);font-weight:800;font-style:italic;font-size:1.3rem;text-transform:uppercase}
-.mini .m{font-weight:600}
-.mini .m .us{color:var(--red-hi)}
-.form{display:flex;gap:4px}
-.badge{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 4px;border-radius:3px;font-family:var(--f-display);font-weight:800;font-size:.85rem}
-.badge.S{background:var(--green);color:#fff}.badge.U{background:var(--gold);color:#16120a}.badge.N{background:var(--loss-soft);color:var(--loss);box-shadow:inset 0 0 0 1px var(--loss)}
-
-/* Sektionen */
-section.block{padding-block:96px 0}
-.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:14px 28px;margin-bottom:30px}
-.sec-head .kicker{margin-bottom:10px}
-.sec-head p.intro{max-width:52ch;color:var(--muted)}
-.stamp{font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;color:var(--dim)}
-
-/* Liga */
-.leagues{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-@media (max-width:1000px){.leagues{grid-template-columns:1fr}}
-.league{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);min-width:0;overflow:hidden;display:grid;align-content:start}
-.league-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:18px 20px;background:linear-gradient(90deg,var(--red-deep),var(--panel) 70%);border-bottom:1px solid var(--line)}
-.league-head h3{font-size:2.1rem}
-.league-head h3 small{display:block;font-style:normal;font-weight:700;font-size:.92rem;letter-spacing:.1em;color:#d9dbe1;margin-top:6px}
-.place{text-align:right}
-.place b{display:block;font-family:var(--f-display);font-weight:900;font-style:italic;font-size:3.4rem;line-height:.85}
-.place span{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;color:#d9dbe1}
-.league-body{padding:6px 20px 20px;display:grid;gap:20px}
-.scroll{overflow-x:auto;min-width:0}
-table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
-th{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--dim);text-align:right;padding:10px 8px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
-th.l,td.l{text-align:left}
-td.rank{font-family:var(--f-display);font-weight:800;font-style:italic;font-size:1.1rem;color:var(--muted);text-align:center;width:2.4rem}
-td.team{white-space:normal;min-width:150px;font-weight:500}
-td.pts{font-family:var(--f-display);font-weight:900;font-size:1.2rem}
-tr.ours td{background:linear-gradient(90deg,color-mix(in srgb,var(--red) 28%,transparent),color-mix(in srgb,var(--red) 8%,transparent));font-weight:700;color:#fff}
-tr.ours td.rank{color:#fff;box-shadow:inset 4px 0 0 var(--red-hi)}
-.subhead{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.04em;font-size:1.2rem;margin-bottom:6px}
-.sched{display:grid}
-.game{display:grid;grid-template-columns:5.6rem minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem}
-.game .d{font-family:var(--f-display);font-weight:700;font-size:.95rem;color:var(--muted);line-height:1.1;text-transform:uppercase}
-.game .d small{display:block;font-weight:600;color:var(--dim);font-size:.78rem;letter-spacing:.06em}
-.game .who{min-width:0}
-.game .who b{font-weight:600}
-.game .ha{display:inline-block;font-family:var(--f-display);font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);padding:1px 6px;border-radius:3px;margin-right:8px;vertical-align:1px}
-.game .ha.h{color:var(--ink);border-color:var(--red)}
-.res{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:800;font-size:1.25rem;font-variant-numeric:tabular-nums}
-.game.free{color:var(--dim)}
-a.rep{font-size:.8rem;color:var(--muted);text-decoration:underline;text-underline-offset:2px;margin-left:6px}
-details.more summary{cursor:pointer;font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.92rem;padding:12px 0;color:var(--red-hi);list-style:none}
-details.more summary::-webkit-details-marker{display:none}
-details.more summary::before{content:"+ "}
-details.more[open] summary::before{content:"– "}
-.links{display:flex;flex-wrap:wrap;gap:10px}
-.cup{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.cup .league-head{background:linear-gradient(90deg,var(--gold-soft),var(--panel) 70%)}
-.cup .league-body{padding-top:4px}
+/* Tabellen */
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th { text-align: left; padding: 8px; font-size: 13px; font-weight: 700; color: var(--grau); border-bottom: 2px solid var(--linie); white-space: nowrap; }
+td { padding: 7px 8px; border-bottom: 1px solid var(--linie); vertical-align: top; }
+td.r, th.r { text-align: right; }
+td.c, th.c { text-align: center; }
+tr.wir td { background: #fdecef; font-weight: 700; }
+tr.wir td:first-child { box-shadow: inset 3px 0 0 var(--rot); }
+.stand { color: var(--grau); font-size: 14px; margin-top: -6px; }
+.S { color: #15803d; font-weight: 700; }
+.U { color: #b45309; font-weight: 700; }
+.N { color: var(--rot); font-weight: 700; }
+details.rest summary { cursor: pointer; color: var(--rot); margin: 10px 0 4px; font-weight: 600; }
 
 /* Statistik */
-.leaders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:28px}
-@media (max-width:960px){.leaders{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.leader{background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;position:relative;overflow:hidden;min-width:0}
-.leader .stripes{position:absolute;inset:0 0 0 52%;color:rgb(255 255 255 / .03)}
-.leader::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
-.leader .k{position:relative;font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--muted)}
-.leader .v{position:relative;font-family:var(--f-display);font-weight:900;font-style:italic;font-size:3.6rem;line-height:.95;margin-top:8px}
-.leader .v small{font-size:1.1rem;color:var(--muted);font-style:normal;font-weight:700;margin-left:4px}
-.leader .n{position:relative;font-weight:600;margin-top:4px;overflow-wrap:anywhere}
-.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:18px}
-.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:3px;gap:2px}
-.seg button{border:0;background:transparent;color:var(--muted);font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.95rem;padding:8px 14px;border-radius:3px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--red);color:#fff}
+.filter { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-bottom: 12px; }
+.filter select { font: inherit; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; margin-left: 4px; }
+#stats th button { all: unset; cursor: pointer; }
+#stats th[aria-sort] { color: var(--text); }
+#stats th[aria-sort] button::after { content: " ▼"; font-size: 10px; }
+#stats th[aria-sort="ascending"] button::after { content: " ▲"; }
+#stats tr.p { cursor: pointer; }
+#stats td.name { min-width: 170px; }
+#stats tr.p:hover td { background: var(--hell); }
+tr.log td { background: #fafafa; font-size: 14px; }
+tr.log ul { margin: 0; padding-left: 18px; }
+tr.log li { margin: 3px 0; }
+.hinweis { font-size: 14px; color: var(--grau); margin: 10px 0 0; }
 
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:28px}
-.pcard{all:unset;box-sizing:border-box;cursor:pointer;background:linear-gradient(165deg,var(--panel-2) 0%,var(--panel) 60%);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;position:relative;display:grid;min-width:0;transition:transform .15s,border-color .15s}
-.pcard:hover{transform:translateY(-3px);border-color:var(--red)}
-.pcard:focus-visible{outline:3px solid var(--red-hi)}
-.pcard .top{display:flex;align-items:center;gap:14px;padding:16px 16px 12px;position:relative}
-.pcard .rank{position:absolute;right:12px;top:8px;font-family:var(--f-display);font-weight:900;font-style:italic;font-size:3.2rem;line-height:1;color:rgb(255 255 255 / .06)}
-.pcard .mono{width:52px;height:52px;flex:none;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;font-style:italic;font-size:1.35rem;background:var(--bg);border:2px solid var(--red);color:#fff}
-.pcard .nm{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:1.3rem;line-height:1;min-width:0;overflow-wrap:anywhere}
-.pcard .nm small{display:block;font-style:normal;font-weight:600;font-size:.8rem;letter-spacing:.08em;color:var(--muted);margin-top:4px}
-.pcard .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
-.pcard .grid div{padding:10px 6px;text-align:center;border-right:1px solid var(--line)}
-.pcard .grid div:last-child{border-right:0}
-.pcard .grid b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.35rem;line-height:1;font-variant-numeric:tabular-nums}
-.pcard .grid span{font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;color:var(--muted)}
-.pcard .grid .hl b{color:var(--red-hi)}
+/* Highlights */
+.hl { display: inline-block; font-size: 12.5px; font-weight: 700; padding: 1px 7px; margin: 3px 4px 0 0; border-radius: 4px; white-space: nowrap; }
+.hl.max { background: var(--rot); color: #fff; }
+.hl.hf { background: #f5c33b; color: #222; }
+.hl.sl { background: #15803d; color: #fff; }
+.hls { display: block; }
+.hl-liste { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.hl-liste ol { margin: 0; padding-left: 20px; }
+.hl-liste li { margin-bottom: 8px; }
 
-.stats{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:4px 8px 0}
-.stats th button{all:unset;cursor:pointer}
-.stats th button:focus-visible{outline:2px solid var(--red-hi)}
-.stats th[aria-sort]{color:var(--ink)}
-.stats th[aria-sort] button::after{content:" ↓";color:var(--red-hi)}
-.stats th[aria-sort="ascending"] button::after{content:" ↑"}
-.stats tbody tr.p{cursor:pointer}
-.stats tbody tr.p:hover td{background:var(--panel-2)}
-.stats tbody tr.p.open td{background:var(--panel-2)}
-.stats td.name{font-weight:600}
-.stats td.name small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
-.bar{display:inline-block;width:46px;height:5px;background:var(--line);border-radius:3px;vertical-align:middle;margin-left:8px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--red)}
-tr.log td{background:var(--bg);white-space:normal;text-align:left;padding:14px 16px}
-.loglist{display:grid;gap:6px;font-size:.9rem}
-.loglist div{display:grid;grid-template-columns:6.6rem 1.8rem minmax(0,1fr) auto;gap:10px;align-items:center}
-.loglist .t{font-family:var(--f-display);font-weight:700;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.loglist .ex{font-size:.82rem;color:var(--muted)}
-.note{font-size:.85rem;color:var(--dim);margin-top:12px;max-width:85ch}
-
-.reports{display:grid;gap:10px;margin-top:22px}
-.report{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
-.report[open]{border-color:var(--red-deep)}
-.report summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:6.4rem minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px}
-.report summary::-webkit-details-marker{display:none}
-.report .meta{font-family:var(--f-display);font-weight:700;font-size:.95rem;color:var(--muted);line-height:1.1;text-transform:uppercase}
-.report .meta small{display:block;color:var(--red-hi);font-size:.78rem;letter-spacing:.08em}
-.report .opp{font-weight:600;min-width:0}
-.report .opp small{display:block;font-weight:500;color:var(--muted);font-size:.85rem}
-.report .body{padding:0 18px 18px}
-.rtable td{font-size:.92rem;white-space:normal}
-.rtable td.mt{font-family:var(--f-display);font-weight:700;color:var(--dim);text-transform:uppercase;font-size:.8rem;letter-spacing:.06em;width:3.6rem}
-.rtable td.us{font-weight:600}
-.rtable td.sc{width:5.4rem;text-align:center;font-family:var(--f-display);font-weight:800;font-size:1.1rem}
-.rtable td.ex{font-size:.82rem;color:var(--gold)}
-@media (max-width:640px){.rtable td.mt{display:none}.report summary{grid-template-columns:4.8rem minmax(0,1fr) auto;padding:12px 14px}}
-
-.hl{display:inline-block;font-family:var(--f-display);font-weight:800;font-size:.8rem;letter-spacing:.04em;line-height:1.4;padding:1px 7px;border-radius:3px;margin:4px 4px 0 0;white-space:nowrap;font-variant-numeric:tabular-nums}
-.hl.max{background:var(--red);color:#fff}.hl.hf{background:var(--gold);color:#16120a}.hl.sl{background:var(--green);color:#fff}
-.hls{display:block}
-.rtable td.us .pl+.pl,.rtable td.them .pl+.pl{margin-top:4px}
-.rtable td.them{color:var(--muted)}
-.rtable td.them .hl{opacity:.8}
-.report .opp .hls{margin-top:2px}
-.pc-hl{padding:2px 12px 12px;border-top:1px solid var(--line)}
-.season-hl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:28px}
-@media (max-width:900px){.season-hl{grid-template-columns:1fr}}
-.hlcol{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0}
-.hlcol h4{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:1.35rem;margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.hlcol h4 span{font-style:normal;font-size:.9rem;color:var(--muted);font-weight:700}
-.hlcol ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.hlcol li{display:grid;grid-template-columns:4.6rem minmax(0,1fr);gap:10px;align-items:start}
-.hlcol li .hl{margin:1px 0 0;text-align:center}
-.hlcol li b{font-weight:600}
-.hlcol li small{display:block;color:var(--muted);font-size:.82rem}
-.hlcol .none{color:var(--dim);font-size:.9rem}
+/* Spielberichte */
+details.bericht { border: 1px solid var(--linie); border-radius: 8px; margin-bottom: 8px; background: #fff; min-width: 0; }
+details.bericht summary { cursor: pointer; padding: 10px 14px; }
+details.bericht summary:hover { background: var(--hell); }
+details.bericht[open] summary { border-bottom: 1px solid var(--linie); }
+details.bericht .body { padding: 8px 14px 12px; }
+.rtable { table-layout: fixed; }
+.rtable th { white-space: normal; }
+.rtable .art { width: 64px; }
+.rtable .c { width: 52px; }
+.rtable td.them { color: var(--grau); }
+.rtable .pl + .pl { margin-top: 4px; }
 
 /* Verein */
-.club{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start}
-@media (max-width:960px){.club{grid-template-columns:1fr}}
-.prose{display:grid;gap:16px;max-width:62ch;font-size:1.08rem;color:#cfd2d9}
-.roster{display:grid;gap:18px;margin-top:6px}
-.roster .t{font-family:var(--f-display);font-weight:800;font-style:italic;text-transform:uppercase;font-size:1.25rem;margin-bottom:8px}
-.roster .t span{font-style:normal;font-weight:600;color:var(--muted);font-size:.9rem;letter-spacing:.06em;margin-left:6px}
-.family{display:flex;flex-wrap:wrap;gap:6px}
-.family span{padding:5px 12px;border:1px solid var(--line);border-radius:3px;font-size:.92rem;background:var(--panel)}
-.timeline{list-style:none;margin:12px 0 0;padding:0;display:grid;border-left:2px solid var(--line)}
-.timeline li{display:grid;grid-template-columns:4.8rem minmax(0,1fr);gap:16px;padding:12px 0 12px 20px;position:relative}
-.timeline li::before{content:"";position:absolute;left:-7px;top:19px;width:12px;height:12px;background:var(--red);transform:rotate(45deg)}
-.timeline .y{font-family:var(--f-display);font-weight:900;font-style:italic;font-size:1.7rem;line-height:1}
-.timeline span:last-child{color:#cfd2d9}
-.venue{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;margin-top:56px}
-.venue figure{margin:0;border-radius:var(--r);overflow:hidden;background:var(--panel);position:relative}
-.venue figure img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;max-width:100%}
-.venue figure .tag{position:absolute;left:16px;top:16px}
-.facts{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:16px;align-content:start}
-.facts p{color:#cfd2d9}
-.kv{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:8px 14px;margin:0}
-.kv dt{font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;color:var(--muted);padding-top:2px}
-.kv dd{margin:0}
-@media (max-width:760px){.venue{grid-template-columns:1fr}}
+.kader b { display: block; }
+.chronik td:first-child { font-weight: 700; white-space: nowrap; width: 60px; }
+dl.daten { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 6px 12px; margin: 0; }
+dl.daten dt { font-weight: 700; }
+dl.daten dd { margin: 0; }
 
-/* Galerie */
-.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.gallery button{all:unset;cursor:zoom-in;border-radius:4px;overflow:hidden;background:var(--panel);aspect-ratio:1;display:block;max-width:100%;position:relative}
-.gallery button:focus-visible{outline:3px solid var(--red-hi)}
-.gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s,filter .35s;filter:saturate(.85)}
-.gallery button:hover img{transform:scale(1.05);filter:saturate(1.05)}
-.gallery .wide{grid-column:span 2;aspect-ratio:2/1}
-@media (max-width:700px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.lightbox{position:fixed;inset:0;z-index:50;background:rgb(0 0 0 / .92);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.lightbox img{max-width:100%;max-height:84vh;border-radius:4px}
-.lightbox p{color:#ddd;text-align:center;margin-top:12px;font-size:.95rem}
-.lightbox .btn{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+/* Bilder */
+.galerie { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.galerie button { all: unset; cursor: pointer; display: block; border-radius: 6px; overflow: hidden; }
+.galerie img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: opacity .2s; }
+.galerie button:hover img { opacity: .85; }
+#lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.88); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 20; }
+#lightbox figure { margin: 0; text-align: center; }
+#lightbox img { max-height: 82vh; border-radius: 6px; }
+#lightbox p { color: #fff; }
+#lb-close { position: absolute; top: 12px; right: 12px; font: inherit; padding: 6px 12px; border: 0; border-radius: 6px; cursor: pointer; }
 
-.nav .ig{display:grid;place-items:center;width:40px;height:40px;color:var(--muted);text-decoration:none;flex:none}
-.nav .ig:hover{color:var(--ink)}
-@media (max-width:820px){.nav .ig{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:12px}.nav .wrap{position:relative}}
-.insta{margin-top:18px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px 28px;align-items:center;padding:26px 28px;border-radius:var(--r);border:1px solid var(--line);background:linear-gradient(110deg,color-mix(in srgb,#833ab4 30%,var(--panel)),color-mix(in srgb,#fd1d1d 22%,var(--panel)) 55%,color-mix(in srgb,#fcb045 18%,var(--panel)))}
-.insta .icon{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;color:#fff;background:linear-gradient(45deg,#fcb045,#fd1d1d 45%,#833ab4)}
-.insta h3{font-size:2rem}
-.insta p{color:#e3e4e8;margin-top:6px}
-@media (max-width:700px){.insta{grid-template-columns:auto minmax(0,1fr)}.insta .btn{grid-column:1/-1;justify-self:start}}
-/* Kontakt */
-.contact{margin-top:110px;position:relative;overflow:hidden;background:linear-gradient(120deg,var(--red-deep),var(--bg) 60%);border-top:1px solid var(--line)}
-.contact .stripes{position:absolute;inset:0 0 0 auto;width:40%;color:rgb(255 255 255 / .03)}
-.contact .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:40px;padding-block:72px}
-@media (max-width:960px){.contact .wrap{grid-template-columns:1fr;gap:32px}}
-.contact h2{font-size:clamp(3rem,7vw,5rem)}
-.contact .lead{margin-top:16px;max-width:36ch;color:#cfd2d9;font-size:1.1rem}
-.copy{all:unset;cursor:pointer;font-family:var(--f-display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--red-hi);margin-left:10px}
-.copy:focus-visible{outline:2px solid var(--red-hi)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.chips a{padding:8px 14px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 60%,transparent);border-radius:3px;text-decoration:none;font-weight:600;font-size:.92rem}
-.chips a:hover{border-color:var(--red)}
-footer{background:var(--bg);color:var(--dim);font-size:.85rem;border-top:1px solid var(--line)}
-footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;padding-block:22px calc(22px + env(safe-area-inset-bottom,0px))}
+/* Fuß */
+#fuss { margin-top: 44px; background: #1d2025; color: #b8bcc4; font-size: 14px; padding: 24px 0; }
+#fuss a { color: #fff; }
+
+@media (max-width: 900px) {
+  #kopf .container { flex-wrap: wrap; gap: 0; padding-top: 8px; }
+  #menu { margin: 0 -20px; width: calc(100% + 40px); overflow-x: auto; scrollbar-width: none; }
+  #menu::-webkit-scrollbar { display: none; }
+  #menu ul { padding: 4px 14px 6px; }
+  .raster, .zwei, .hl-liste { grid-template-columns: minmax(0, 1fr); }
+  .raster { gap: 0; }
+  .seitenleiste { order: -1; }
+  .galerie { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  html { scroll-padding-top: 100px; }
+  .container { padding: 0 14px; }
+  #menu { margin: 0 -14px; width: calc(100% + 28px); }
+  #menu a { padding: 7px 10px; }
+  .titelbild .container { padding-top: 40px; padding-bottom: 40px; }
+  .titelbild img { width: 64px; }
+  .titelbild h1 { font-size: 40px; }
+  .titelbild p { font-size: 17px; }
+  section { padding-top: 32px; }
+  h2 { font-size: 27px; }
+  .karte { padding: 16px 14px; border-radius: 8px; }
+  table { font-size: 14px; }
+  th, td { padding: 6px 5px; }
+  /* am Handy unwichtige Spalten ausblenden */
+  .liga-tab th:nth-child(7), .liga-tab td:nth-child(7),
+  .liga-tab th:nth-child(8), .liga-tab td:nth-child(8),
+  #stats th:nth-child(2), #stats tr.p td:nth-child(2),
+  #stats th:nth-child(4), #stats tr.p td:nth-child(4),
+  #stats th:nth-child(6), #stats tr.p td:nth-child(6),
+  /* Max, HF und SL stehen am Handy als Highlights unter dem Namen */
+  #stats th:nth-child(7), #stats tr.p td:nth-child(7),
+  #stats th:nth-child(8), #stats tr.p td:nth-child(8),
+  #stats th:nth-child(9), #stats tr.p td:nth-child(9),
+  .rtable .art { display: none; }
+  #stats td.name small { display: block; }
+  details.bericht summary, details.bericht .body { padding-left: 10px; padding-right: 10px; }
+  .galerie { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  dl.daten { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  dl.daten dd { margin-bottom: 8px; }
+}
 </style>
 </head>
 <body>
-<div class="ticker" aria-label="Kurzmeldungen"><div class="run" id="ticker"></div></div>
 
-<nav class="nav" aria-label="Hauptnavigation">
-  <div class="wrap">
-    <a class="brand" href="#start"><img src="assets/crest.png" alt=""><span><b>White Tigers</b><small>SV Rot-Weiß Göcklingen</small></span></a>
-    <ul>
-      <li><a href="#matchcenter">Match-Center</a></li>
-      <li><a href="#liga">Liga</a></li>
-      <li><a href="#statistik">Statistik</a></li>
-      <li><a href="#verein">Verein</a></li>
-      <li><a href="#galerie">Galerie</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
-    </ul>
-    <a class="ig" href="https://www.instagram.com/svgwhitetigers/" target="_blank" rel="noopener" aria-label="White Tigers auf Instagram"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-    <a class="btn sm cta" href="#kontakt">Probetraining</a>
-  </div>
-</nav>
-
-<header class="hero" id="start">
-  <div class="hero-bg" aria-hidden="true"><canvas id="board-canvas"></canvas></div>
-  <div class="stripes" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="hero-crest"><img src="assets/crest.png" alt="Wappen der White Tigers: Dartscheibe zwischen zwei weißen Tigern"></div>
-    <span class="tag">Badische Dartliga · Saison 2026/27</span>
-    <h1>White<span class="red">Tigers</span></h1>
-    <p class="lead">Steeldart aus Göcklingen. Die Dartabteilung des SV Rot-Weiß Göcklingen 1946 e.V. mit zwei Teams im Ligabetrieb.</p>
-    <div class="hero-actions">
-      <a class="btn" href="#matchcenter">Nächstes Spiel</a>
-      <a class="btn ghost" href="#statistik">Spielerstatistik</a>
-    </div>
-    <div class="hero-stats" id="hero-stats"></div>
+<header id="kopf">
+  <div class="container">
+    <a class="logo" href="#start"><img src="assets/crest.png" alt="">White Tigers</a>
+    <nav id="menu" aria-label="Menü">
+      <ul>
+        <li><a href="#start">Start</a></li>
+        <li><a href="#liga">Tabellen</a></li>
+        <li><a href="#statistik">Statistik</a></li>
+        <li><a href="#berichte">Spielberichte</a></li>
+        <li><a href="#verein">Verein</a></li>
+        <li><a href="#galerie">Bilder</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
-<main>
-  <!-- MATCH-CENTER -->
-  <section class="mc wrap" id="matchcenter" aria-labelledby="mc-h">
-    <div class="sec-head">
-      <div><p class="kicker">Live aus dem Spielplan</p><h2 id="mc-h">Match-Center</h2></div>
-    </div>
-    <div class="mc-grid">
-      <article class="board" id="board"></article>
-      <div class="side-list" id="side-list"></div>
-    </div>
-  </section>
+<div class="titelbild" id="start">
+  <div class="container">
+    <img src="assets/crest.png" alt="Wappen der White Tigers">
+    <h1>White Tigers Göcklingen</h1>
+    <p>Die Dartabteilung des SV Rot-Weiß Göcklingen 1946 e.V. – mit zwei Mannschaften in der Badischen Dartliga.</p>
+    <a class="knopf" href="#liga">Tabellen &amp; Spielplan</a>
+    <a class="knopf hell" href="#kontakt">Probetraining</a>
+  </div>
+</div>
 
-  <!-- LIGA -->
-  <section class="block wrap" id="liga" aria-labelledby="liga-h">
-    <div class="sec-head">
-      <div><p class="kicker">Tabellen & Spielpläne</p><h2 id="liga-h">Ligabetrieb</h2></div>
-      <p class="stamp" id="stamp-liga"></p>
-    </div>
-    <div class="leagues" id="leagues"></div>
-    <div class="cup" id="cup"></div>
-  </section>
-
-  <!-- STATISTIK -->
-  <section class="block wrap" id="statistik" aria-labelledby="stat-h">
-    <div class="sec-head">
-      <div><p class="kicker">Aus den Online-Spielberichten der BDL</p><h2 id="stat-h">Spielerstatistik</h2></div>
-      <p class="intro">Jedes Einzel und Doppel der Saison, ausgewertet pro Spieler. Karte oder Zeile anklicken zeigt alle Partien des Spielers.</p>
-    </div>
-
-    <div class="controls">
-      <div class="seg" role="group" aria-label="Mannschaft">
-        <button type="button" id="f-all" data-team="all" aria-pressed="true">Alle</button>
-        <button type="button" id="f-t1" data-team="T1" aria-pressed="false">Team 1</button>
-        <button type="button" id="f-t2" data-team="T2" aria-pressed="false">Team 2</button>
+<!-- STARTSEITE -->
+<section>
+  <div class="container raster">
+    <div>
+      <div class="karte">
+        <h2>Herzlich willkommen!</h2>
+        <p>Schön, dass ihr auf unserer Seite vorbeischaut. Wir sind die White Tigers, die Dartabteilung vom SV Rot-Weiß Göcklingen. Gespielt wird Steeldart, und zwar mit zwei Mannschaften in der Badischen Dartliga: Team 1 in der Bezirksoberliga 1, Team 2 in der Kreisbezirksliga 1.</p>
+        <p>Hier findet ihr die aktuellen Tabellen, unseren Spielplan und eine Statistik zu allen Spielern, die wir aus den Spielberichten der BDL zusammengetragen haben.</p>
+        <p>Wer Lust hat mitzuspielen, kann gerne donnerstags ab 18:30 Uhr zum Training ins Sportheim kommen. Egal ob Anfänger oder schon länger dabei, einfach vorbeikommen!</p>
       </div>
-      <div class="seg" role="group" aria-label="Wettbewerb">
-        <button type="button" id="f-cup" data-comp="all" aria-pressed="true">Alle Spiele</button>
-        <button type="button" id="f-liga" data-comp="liga" aria-pressed="false">Nur Liga</button>
+      <div class="karte">
+        <h3>Neuigkeiten</h3>
+        <ul class="news">
+          <li><span class="datum">23.10.2026</span>
+            <b>Team 1 holt ein 6:6 gegen Taraxacuma 26er</b>
+            Gegen den Tabellendritten gab es zu Hause ein Unentschieden. Damit steht Team 1 nach vier Spieltagen auf Platz 6.</li>
+          <li><span class="datum">16.10.2026</span>
+            <b>Pokal: Team 1 gewinnt 11:1 in Dossenheim</b>
+            Was für ein Abend! Marcel hat zwei 180er geworfen, Jannes auch eine, und Etienne hat 114 gecheckt. In der 2. Runde geht es im Januar zu Connect Pälzer Klobber. Team 2 ist leider nach einem 6:6 gegen Taraxacuma 26er über die Legs ausgeschieden.</li>
+          <li><span class="datum">02.10.2026</span>
+            <b>Erster Sieg für Team 2</b>
+            Team 2 hat zu Hause gegen 501 Jacky Darts Studenten mit 7:5 gewonnen. Stefan hat dabei ein 130er Finish gemacht.</li>
+        </ul>
       </div>
     </div>
 
-    <div class="leaders" id="leaders"></div>
-    <div class="cards" id="cards"></div>
-    <div class="season-hl" id="season-hl"></div>
-
-    <div class="stats scroll" id="stats-wrap">
-      <table id="stats">
-        <thead><tr>
-          <th class="l" data-k="name"><button type="button">Spieler</button></th>
-          <th data-k="gp" title="Spieltage mit Einsatz"><button type="button">Abende</button></th>
-          <th data-k="ew" title="Einzel gewonnen – verloren"><button type="button">Einzel</button></th>
-          <th data-k="ep" title="Siegquote im Einzel"><button type="button">Quote</button></th>
-          <th data-k="dw" title="Doppel gewonnen – verloren"><button type="button">Doppel</button></th>
-          <th data-k="ld" title="Legs gewonnen : verloren (Einzel + Doppel)"><button type="button">Legs</button></th>
-          <th data-k="mx" title="Maxima ab 171 Punkte, wie im BDL-Spielbericht"><button type="button">Max</button></th>
-          <th data-k="hf" title="Höchstes Finish (ab 100)"><button type="button">High Finish</button></th>
-          <th data-k="sl" title="Kürzestes Leg in Darts"><button type="button">Short Leg</button></th>
-          <th data-k="pts" title="BDL-Wertung: Einzelsieg 2 Punkte, Doppelsieg 1 Punkt" aria-sort="descending"><button type="button">Punkte</button></th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <p class="note">Standardmäßig zählen Liga und Pokal; „Nur Liga“ entspricht der offiziellen BDL-Statistik. Punkte wie bei der BDL: Einzelsieg 2, Doppelsieg 1. Max zählt alle Aufnahmen ab 171, so wie sie im Spielbericht stehen. Short Legs im Doppel werden beiden Spielern gutgeschrieben.</p>
-
-    <h3 style="margin-top:56px">Spielberichte</h3>
-    <div class="reports" id="reports"></div>
-  </section>
-
-  <!-- VEREIN -->
-  <section class="block wrap" id="verein" aria-labelledby="verein-h">
-    <div class="sec-head">
-      <div><p class="kicker">SV Rot-Weiß Göcklingen 1946 e.V. · Abteilung Dart</p><h2 id="verein-h">Die Tigerfamilie</h2></div>
-    </div>
-    <div class="club">
-      <div class="prose">
-        <p>Die White Tigers sind die Dartabteilung des SV Rot-Weiß Göcklingen. Wir möchten jung und alt die Möglichkeit bieten, aktiv Steeldart zu spielen und sich im Verein zu engagieren.</p>
-        <p>Mit zwei Mannschaften spielen wir in der Badischen Dartliga: Team 1 in der Bezirksoberliga, Team 2 in der Kreisbezirksliga. Neue Mitspieler sind jederzeit willkommen, egal ob Anfänger oder erfahren. Komm donnerstags zum Training vorbei und wirf ein paar Pfeile mit.</p>
-        <div>
-          <p class="kicker" style="margin-top:10px">Kader 2026/27</p>
-          <p class="muted" style="font-size:.9rem">Alle Spieler mit Einsatz laut BDL-Spielberichten.</p>
-          <div class="roster" id="family"></div>
-        </div>
+    <aside class="seitenleiste">
+      <div class="karte">
+        <h3>Nächste Spiele</h3>
+        <ul id="next"></ul>
       </div>
-      <div>
-        <p class="kicker">Chronik</p>
-        <ol class="timeline">
-          <li><span class="y">2017</span><span>Gründung am 20. September. Im selben Monat bauen wir die Dartanlage im Sportheim in Eigenleistung auf.</span></li>
-          <li><span class="y">2022</span><span>3. Platz in der Kreisliga West und Aufstieg in die Bezirksliga. Jubiläumscup zum 5-jährigen Bestehen, Sommerturnier mit 57 Teilnehmern.</span></li>
-          <li><span class="y">22/23</span><span>Erste Saison mit zwei Mannschaften: Bezirksliga 1 und Kreisliga 4.</span></li>
-          <li><span class="y">2025</span><span>Team 1 in der Bezirksoberliga, Team 2 in der Kreisbezirksliga. Beide starten mit einem Sieg, Team 1 gewinnt die erste Pokalrunde 10:2.</span></li>
-          <li><span class="y">2026</span><span>Team 1 zieht mit einem 11:1 in Dossenheim in die 2. Pokalrunde ein.</span></li>
-        </ol>
+      <div class="karte">
+        <h3>Letzte Ergebnisse</h3>
+        <ul id="last"></ul>
       </div>
-    </div>
+      <div class="karte">
+        <h3>Training</h3>
+        <p style="margin:0">Donnerstag 18:30 – 22:00 Uhr<br>Sportheim an der Kaiserberghalle<br>Hauptstraße 114, Göcklingen<br><small>Probetraining ist jederzeit möglich.</small></p>
+      </div>
+      <div class="karte">
+        <h3>Instagram</h3>
+        <p style="margin:0">Bilder und Ergebnisse gibts auch auf Instagram: <a href="https://www.instagram.com/svgwhitetigers/" target="_blank" rel="noopener">@svgwhitetigers</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
 
-    <div class="venue">
-      <figure><span class="tag">Heimspielstätte</span><img src="assets/venue2.jpg" alt="Die Dartwand im Sportheim mit Board 1 und Board 2, Bildschirmen und Tiger-Logos"></figure>
-      <div class="facts">
-        <h3>Unser Revier</h3>
-        <p>Trainings- und Spielstätte ist das Vereinsheim an der Kaiserberghalle. Die Anlage hat drei Boards, jedes mit PC, Bildschirm und Zählprogramm. Die Oches lassen sich aushängen, so bleibt das Sportheim auch für Fußball und andere Abteilungen frei.</p>
-        <dl class="kv">
-          <dt>Adresse</dt><dd>Sportheim Kaiserberghalle<br>Hauptstraße 114, 76831 Göcklingen</dd>
-          <dt>Training</dt><dd>Donnerstag, 18:30 – 22:00 Uhr<br>Probetraining jederzeit möglich</dd>
-          <dt>Heimspiele</dt><dd>Freitag, Beginn 20:00 Uhr<br>Sportheim geöffnet ab 19:00 Uhr</dd>
+<!-- LIGA -->
+<section id="liga">
+  <div class="container">
+    <h2>Tabellen &amp; Spielplan</h2>
+    <p class="stand" id="stand"></p>
+    <div id="leagues"></div>
+    <div class="karte">
+      <h3>BDL-Pokal 2026/27</h3>
+      <div class="scroll"><table id="cup"></table></div>
+      <p class="hinweis"><a href="https://www.badischedartliga.de/index.php?id=pokal-2627" target="_blank" rel="noopener">Pokal auf badischedartliga.de</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- STATISTIK -->
+<section id="statistik">
+  <div class="container">
+    <h2>Spielerstatistik</h2>
+    <div class="karte">
+      <p>Die Statistik haben wir aus den Online-Spielberichten der BDL ausgewertet. Auf einen Spieler klicken, dann seht ihr alle seine Spiele.</p>
+      <div class="filter">
+        <label>Mannschaft:
+          <select id="f-team">
+            <option value="all">Beide Teams</option>
+            <option value="T1">Team 1</option>
+            <option value="T2">Team 2</option>
+          </select>
+        </label>
+        <label>Wettbewerb:
+          <select id="f-comp">
+            <option value="all">Liga + Pokal</option>
+            <option value="liga">Nur Liga</option>
+          </select>
+        </label>
+      </div>
+      <div class="scroll">
+        <table id="stats">
+          <thead><tr>
+            <th data-k="name"><button type="button">Spieler</button></th>
+            <th class="r" data-k="gp" title="Spieltage mit Einsatz"><button type="button">Abende</button></th>
+            <th class="r" data-k="ew" title="Einzel gewonnen – verloren"><button type="button">Einzel</button></th>
+            <th class="r" data-k="ep" title="Siegquote im Einzel"><button type="button">Quote</button></th>
+            <th class="r" data-k="dw" title="Doppel gewonnen – verloren"><button type="button">Doppel</button></th>
+            <th class="r" data-k="ld" title="Legs gewonnen : verloren"><button type="button">Legs</button></th>
+            <th class="r" data-k="mx" title="Maxima ab 171"><button type="button">Max</button></th>
+            <th class="r" data-k="hf" title="Höchstes Finish"><button type="button">HF</button></th>
+            <th class="r" data-k="sl" title="Kürzestes Leg in Darts"><button type="button">SL</button></th>
+            <th class="r" data-k="pts" title="Einzelsieg 2 Punkte, Doppelsieg 1 Punkt" aria-sort="descending"><button type="button">Pkt</button></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="hinweis">Punkte wie bei der BDL: Einzelsieg 2, Doppelsieg 1. Max = alle Aufnahmen ab 171, HF = höchstes Finish, SL = kürzestes Leg. Short Legs im Doppel zählen für beide Spieler. „Nur Liga“ entspricht der offiziellen BDL-Statistik.</p>
+    </div>
+    <div class="karte">
+      <h3>Unsere Highlights der Saison</h3>
+      <div class="hl-liste" id="season-hl"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPIELBERICHTE -->
+<section id="berichte">
+  <div class="container">
+    <h2>Spielberichte</h2>
+    <p>Alle Spiele der Saison 2026/27 mit Einzel, Doppel und Highlights. Zum Aufklappen einfach anklicken.</p>
+    <div id="reports"></div>
+  </div>
+</section>
+
+<!-- VEREIN -->
+<section id="verein">
+  <div class="container">
+    <h2>Unser Verein</h2>
+    <div class="zwei">
+      <div class="karte">
+        <p>Die White Tigers gibt es seit September 2017. Kurz nach der Gründung haben wir die Dartanlage im Sportheim selbst aufgebaut. Heute stehen dort drei Boards, jedes mit PC, Bildschirm und Zählprogramm. Die Oches kann man aushängen, so bleibt das Sportheim auch für den Fußball und die anderen Abteilungen frei.</p>
+        <h3>Unsere Spieler 2026/27</h3>
+        <div id="family"></div>
+        <p class="hinweis">Alle Spieler, die diese Saison schon im Einsatz waren.</p>
+      </div>
+      <div class="karte">
+        <h3>Chronik</h3>
+        <table class="chronik">
+          <tbody>
+            <tr><td>2017</td><td>Gründung am 20. September, Aufbau der Dartanlage im Sportheim</td></tr>
+            <tr><td>2022</td><td>3. Platz in der Kreisliga West und Aufstieg in die Bezirksliga. Jubiläumscup zum 5-jährigen, Sommerturnier mit 57 Teilnehmern</td></tr>
+            <tr><td>22/23</td><td>Erste Saison mit zwei Mannschaften</td></tr>
+            <tr><td>2025</td><td>Team 1 in der Bezirksoberliga, Team 2 in der Kreisbezirksliga. Pokalsieg 10:2 gegen DC Pegasus Stutensee</td></tr>
+            <tr><td>2026</td><td>Team 1 gewinnt die 1. Pokalrunde 11:1 in Dossenheim</td></tr>
+          </tbody>
+        </table>
+        <h3>Spiellokal</h3>
+        <dl class="daten">
+          <dt>Adresse</dt><dd>Sportheim Kaiserberghalle<br>Hauptstraße 114, 76831 Göcklingen<br><a href="https://www.google.com/maps/search/?api=1&query=Hauptstra%C3%9Fe+114+76831+G%C3%B6cklingen" target="_blank" rel="noopener">Auf Google Maps anzeigen</a></dd>
+          <dt>Training</dt><dd>Donnerstag 18:30 – 22:00 Uhr</dd>
+          <dt>Heimspiele</dt><dd>Freitag 20:00 Uhr, Sportheim offen ab 19:00 Uhr</dd>
         </dl>
-        <div class="links"><a class="btn sm" href="https://www.google.com/maps/search/?api=1&query=Hauptstra%C3%9Fe+114+76831+G%C3%B6cklingen" target="_blank" rel="noopener">Route planen</a></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALERIE -->
-  <section class="block wrap" id="galerie" aria-labelledby="gal-h">
-    <div class="sec-head">
-      <div><p class="kicker">Turniere, Training, Mannschaft</p><h2 id="gal-h">Galerie</h2></div>
-    </div>
-    <div class="gallery" id="gallery"></div>
-    <div class="insta">
-      <div class="icon"><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></div>
-      <div><h3>@svgwhitetigers</h3><p>Ergebnisse, Bilder vom Spielabend und alle Neuigkeiten aus dem Sportheim gibt es zuerst auf Instagram.</p></div>
-      <a class="btn" href="https://www.instagram.com/svgwhitetigers/" target="_blank" rel="noopener">Folgen</a>
-    </div>
-  </section>
-</main>
-
-<section class="contact" id="kontakt" aria-labelledby="kontakt-h">
-  <div class="stripes" aria-hidden="true"></div>
-  <div class="wrap">
-    <div>
-      <span class="tag">Interesse geweckt?</span>
-      <h2 id="kontakt-h" style="margin-top:16px">Wirf mit uns</h2>
-      <p class="lead">Frag uns, was dich interessiert, oder stimm kurz ein Probetraining ab. Training ist jeden Donnerstag ab 18:30 Uhr.</p>
-    </div>
-    <dl class="kv">
-      <dt>Ansprechpartner</dt><dd>Christoph Kuntz</dd>
-      <dt>E-Mail</dt><dd><span id="mail">svg-whitetigers@web.de</span><button class="copy" type="button" data-copy="mail">Kopieren</button></dd>
-      <dt>Mobil</dt><dd><span id="tel">0175 1988114</span><button class="copy" type="button" data-copy="tel">Kopieren</button></dd>
-      <dt>Instagram</dt><dd><a href="https://www.instagram.com/svgwhitetigers/" target="_blank" rel="noopener">@svgwhitetigers</a></dd>
-    </dl>
-    <div>
-      <p class="kicker">Unsere Partner</p>
-      <div class="chips">
-        <a href="https://www.pokal-store.de" target="_blank" rel="noopener">Pokal-Store.de</a>
-        <a href="https://www.simsek-bau.de" target="_blank" rel="noopener">Simsek Bau</a>
-      </div>
-      <p class="kicker" style="margin-top:24px">Badische Dartliga</p>
-      <div class="chips">
-        <a href="https://www.badischedartliga.de/bzo1" target="_blank" rel="noopener">Bezirksoberliga 1</a>
-        <a href="https://www.badischedartliga.de/kbz1" target="_blank" rel="noopener">Kreisbezirksliga 1</a>
       </div>
     </div>
   </div>
 </section>
-<footer>
-  <div class="wrap">
-    <span>Impressum: Christoph Kuntz · Mörzheimerstraße 4 · 76831 Ilbesheim · svg-whitetigers@web.de</span>
-    <span>© SV Rot-Weiß Göcklingen 1946 e.V. · Abteilung Dart</span>
+
+<!-- BILDER -->
+<section id="galerie">
+  <div class="container">
+    <h2>Bilder</h2>
+    <div class="galerie" id="gallery"></div>
+    <p class="hinweis">Mehr Bilder gibts auf <a href="https://www.instagram.com/svgwhitetigers/" target="_blank" rel="noopener">Instagram</a>.</p>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="container">
+    <h2>Kontakt</h2>
+    <div class="zwei">
+      <div class="karte">
+        <p>Ihr habt Fragen oder wollt mal zum Probetraining vorbeikommen? Meldet euch einfach bei uns.</p>
+        <dl class="daten">
+          <dt>Ansprechpartner</dt><dd>Christoph Kuntz</dd>
+          <dt>E-Mail</dt><dd><a href="mailto:svg-whitetigers@web.de">svg-whitetigers@web.de</a></dd>
+          <dt>Handy</dt><dd><a href="tel:+491751988114">0175 1988114</a></dd>
+          <dt>Instagram</dt><dd><a href="https://www.instagram.com/svgwhitetigers/" target="_blank" rel="noopener">@svgwhitetigers</a></dd>
+        </dl>
+      </div>
+      <div class="karte">
+        <h3>Unsere Sponsoren</h3>
+        <p><a href="https://www.pokal-store.de" target="_blank" rel="noopener">Pokal-Store.de</a><br>
+           <a href="https://www.simsek-bau.de" target="_blank" rel="noopener">Simsek Bau</a></p>
+        <h3>Links</h3>
+        <p style="margin:0"><a href="https://www.badischedartliga.de/" target="_blank" rel="noopener">Badische Dartliga</a><br>
+           <a href="https://www.badischedartliga.de/bzo1" target="_blank" rel="noopener">Bezirksoberliga 1</a><br>
+           <a href="https://www.badischedartliga.de/kbz1" target="_blank" rel="noopener">Kreisbezirksliga 1</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="fuss">
+  <div class="container">
+    <b>Impressum:</b> Christoph Kuntz, Mörzheimerstraße 4, 76831 Ilbesheim, svg-whitetigers@web.de<br>
+    © SV Rot-Weiß Göcklingen 1946 e.V. – Abteilung Dart
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Bild vergrößert">
-  <button type="button" class="btn sm" id="lb-close">Schließen</button>
-  <figure style="margin:0;text-align:center"><img id="lb-img" alt=""><p id="lb-cap"></p></figure>
+<div id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Bild">
+  <button type="button" id="lb-close">Schließen</button>
+  <figure><img id="lb-img" alt=""><p id="lb-cap"></p></figure>
 </div>
 
 <script>
@@ -648,210 +551,102 @@ const PHOTOS = [
   ["venue4.jpg","Dartanlage im Sportheim"]
 ];
 
-/* ===== Hilfsfunktionen ===== */
+
+// ---------- Hilfsfunktionen ----------
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const WD = ["So","Mo","Di","Mi","Do","Fr","Sa"];
 const D = iso => new Date(iso + "T20:00:00");
-const fmtShort = iso => { const d = D(iso); return `${WD[d.getDay()]} ${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.`; };
-const outcome = r => r[0] > r[1] ? "S" : r[0] < r[1] ? "N" : "U";
-const OUT = { S:"Sieg", U:"Unentschieden", N:"Niederlage" };
-const initials = n => n.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+const datum = iso => { const d = D(iso); return `${WD[d.getDay()]} ${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.`; };
+const ergebnis = r => r[0] > r[1] ? "S" : r[0] < r[1] ? "N" : "U";
 const today = new Date(new Date().toDateString());
-
-function upcomingAll(){
-  const items = [];
-  for (const t of ["T1","T2"]) {
-    const g = SCHEDULE[t].find(x => x[2] !== null && !x[4] && D(x[1]) >= today);
-    if (g) items.push({ team:t, date:g[1], home:g[2], opp:g[3], label:`${g[0]}. Spieltag · ${TEAMS[t].league}` });
-  }
-  for (const c of CUP) if (!c.res && D(c.date) >= today) items.push({ team:c.team, date:c.date, home:c.home, opp:c.opp, label:`BDL-Pokal · ${c.round}` });
-  return items.sort((a,b) => a.date.localeCompare(b.date));
-}
 const ourRow = t => TABLES[t].find(r => US.test(r[1]));
 
-/* ===== Ticker & Hero ===== */
-function renderTop(){
-  const next = upcomingAll();
-  const last = GAMES.slice().sort((a,b) => b.date.localeCompare(a.date))[0];
-  const items = [
-    `${TEAMS.T1.name}: Platz ${ourRow("T1")[0]} in der ${TEAMS.T1.league}`,
-    `${TEAMS.T2.name}: Platz ${ourRow("T2")[0]} in der ${TEAMS.T2.league}`,
-    ...next.map(n => `${fmtShort(n.date)} 20:00 · ${TEAMS[n.team].name} ${n.home ? "gegen" : "bei"} ${n.opp}`),
-    `Pokal: ${TEAMS.T1.name} gewinnt 11:1 in Dossenheim`,
-    `Training jeden Donnerstag ab 18:30 Uhr · Probetraining jederzeit`,
-    `Folgt uns auf Instagram: @svgwhitetigers`
-  ];
-  $("#ticker").innerHTML = items.map(t => `<span>${esc(t)}</span>`).join("");
-
-  const all = GAMES.flatMap(g => g.m);
-  const max = all.reduce((s, m) => s + m[4].flat().length, 0);
-  const hf = Math.max(...all.flatMap(m => m[5].flat().map(Number)));
-  $("#hero-stats").innerHTML = [
-    [GAMES.length, "Spiele 26/27"],
-    [new Set(all.flatMap(m => m[1])).size, "Spieler im Einsatz"],
-    [max, "Maxima"],
-    [hf, "Höchstes Finish"]
-  ].map(([v,l]) => `<div><b class="num">${v}</b><span>${l}</span></div>`).join("");
-}
-
-/* ===== Dartscheibe im Hero (maßstabsgetreu: Double 162–170 mm, Triple 99–107 mm, Bull 6,35/15,9 mm) ===== */
-const SECTORS = [20,1,18,4,13,6,10,15,2,17,3,19,7,16,8,11,14,9,12,5];
-function drawBoard(){
-  const cv = $("#board-canvas"); if (!cv) return;
-  const box = cv.parentNode.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
-  cv.width = box.width * dpr; cv.height = box.height * dpr;
-  const c = cv.getContext("2d"); c.setTransform(dpr,0,0,dpr,0,0);
-  const w = box.width, h = box.height;
-  const R = Math.max(h * 0.62, 260);                    // Radius des Double-Rings (170 mm)
-  const cx = w < 760 ? w - R * 0.35 : w * 0.76, cy = h * 0.5;
-  const k = R / 170;
-  // Scheibenkörper mit Zahlenring
-  c.fillStyle = "#0b0c0f"; c.beginPath(); c.arc(cx, cy, R * 1.24, 0, 2 * Math.PI); c.fill();
-  c.strokeStyle = "rgb(255 255 255 / .08)"; c.lineWidth = 2; c.stroke();
-  const ring = (r0, r1, colorFn) => SECTORS.forEach((n, i) => {
-    const a = (i * 18 - 99) * Math.PI / 180;
-    c.beginPath(); c.arc(cx, cy, r1 * k, a, a + Math.PI / 10); c.arc(cx, cy, r0 * k, a + Math.PI / 10, a, true); c.closePath();
-    c.fillStyle = colorFn(i); c.fill();
-  });
-  const black = "#141518", cream = "#d9ccb0", red = "#c8102e", green = "#127a45";
-  ring(107, 162, i => i % 2 ? cream : black);
-  ring(15.9, 99,  i => i % 2 ? cream : black);
-  ring(162, 170, i => i % 2 ? green : red);
-  ring(99, 107,  i => i % 2 ? green : red);
-  c.fillStyle = green; c.beginPath(); c.arc(cx, cy, 15.9 * k, 0, 2 * Math.PI); c.fill();
-  c.fillStyle = red;   c.beginPath(); c.arc(cx, cy, 6.35 * k, 0, 2 * Math.PI); c.fill();
-  // Drahtspinne
-  c.strokeStyle = "rgb(200 205 215 / .55)"; c.lineWidth = Math.max(1, k * 0.9);
-  [170,162,107,99,15.9,6.35].forEach(r => { c.beginPath(); c.arc(cx, cy, r * k, 0, 2 * Math.PI); c.stroke(); });
-  SECTORS.forEach((n, i) => { const a = (i * 18 - 99) * Math.PI / 180;
-    c.beginPath(); c.moveTo(cx + Math.cos(a) * 15.9 * k, cy + Math.sin(a) * 15.9 * k); c.lineTo(cx + Math.cos(a) * 170 * k, cy + Math.sin(a) * 170 * k); c.stroke(); });
-  // Zahlen
-  c.fillStyle = "#f3f4f6"; c.textAlign = "center"; c.textBaseline = "middle";
-  c.font = `800 ${Math.round(22 * k)}px "Barlow Condensed", "Arial Narrow", sans-serif`;
-  SECTORS.forEach((n, i) => { const a = (i * 18 - 90) * Math.PI / 180;
-    c.fillText(n, cx + Math.cos(a) * 192 * k, cy + Math.sin(a) * 192 * k); });
-}
-drawBoard();
-if (document.fonts) document.fonts.ready.then(drawBoard);
-addEventListener("resize", () => { clearTimeout(drawBoard.t); drawBoard.t = setTimeout(drawBoard, 120); });
-
-/* ===== Match-Center ===== */
-function renderMatchCenter(){
-  const items = upcomingAll();
-  const n = items[0];
-  if (n) {
-    const usSide = `<div class="side us"><div class="logo"><img src="assets/crest.png" alt=""></div><div class="nm">White Tigers ${n.team.slice(1)}</div><div class="sub">${TEAMS[n.team].league}</div></div>`;
-    const oppSide = `<div class="side"><div class="logo">${esc(initials(n.opp))}</div><div class="nm">${esc(n.opp)}</div><div class="sub">${n.home ? "Gast" : "Gastgeber"}</div></div>`;
-    $("#board").innerHTML = `
-      <div class="board-top"><span class="tag">Nächstes Spiel</span><span class="when">${esc(n.label)}</span></div>
-      <div class="vs">${n.home ? usSide + `<div class="vs-mid"><div class="v">VS</div><div class="t">${fmtShort(n.date)} · 20:00</div></div>` + oppSide
-                                : oppSide + `<div class="vs-mid"><div class="v">VS</div><div class="t">${fmtShort(n.date)} · 20:00</div></div>` + usSide}</div>
-      <div class="countdown" id="countdown" data-date="${n.date}"></div>
-      <div class="board-top" style="border-top:1px solid var(--line);border-bottom:0"><span class="when">${n.home ? "Heimspiel · Sportheim Kaiserberghalle, Göcklingen" : "Auswärtsspiel"}</span><a class="btn sm ghost" href="#liga">Spielplan</a></div>`;
-    tickCountdown(); setInterval(tickCountdown, 1000);
+function naechsteSpiele(){
+  const liste = [];
+  for (const t of ["T1","T2"]) {
+    const g = SCHEDULE[t].find(x => x[2] !== null && !x[4] && D(x[1]) >= today);
+    if (g) liste.push({ team:t, date:g[1], home:g[2], opp:g[3], was:`${g[0]}. Spieltag ${TEAMS[t].league}` });
   }
-
-  const form = t => SCHEDULE[t].filter(g => g[4]).slice(-5).map(g => `<span class="badge ${outcome(g[4])}" title="${OUT[outcome(g[4])]} ${g[4][0]}:${g[4][1]} gegen ${esc(g[3])}">${outcome(g[4])}</span>`).join("");
-  const last = t => { const g = SCHEDULE[t].filter(x => x[4]).slice(-1)[0]; return g ? `${g[2] ? "gegen" : "bei"} ${esc(g[3])} <b class="num">${g[4][0]}:${g[4][1]}</b>` : "–"; };
-  $("#side-list").innerHTML = items.slice(1,3).map(it => `
-    <div class="mini"><div class="row"><span class="lbl">${esc(it.label)}</span><span class="tag ghost">${fmtShort(it.date)}</span></div>
-      <div class="m">${it.home ? `<span class="us">White Tigers ${it.team.slice(1)}</span> – ${esc(it.opp)}` : `${esc(it.opp)} – <span class="us">White Tigers ${it.team.slice(1)}</span>`}</div></div>`).join("")
-    + ["T1","T2"].map(t => `
-    <div class="mini"><div class="row"><span class="lbl">Form ${TEAMS[t].name}</span><span class="form">${form(t)}</span></div>
-      <div class="row"><span class="muted" style="font-size:.9rem">Zuletzt ${last(t)}</span><span class="d">Platz ${ourRow(t)[0]}</span></div></div>`).join("");
-}
-function tickCountdown(){
-  const el = $("#countdown"); if (!el) return;
-  let s = Math.max(0, Math.floor((D(el.dataset.date) - new Date()) / 1000));
-  const d = Math.floor(s / 86400); s %= 86400; const h = Math.floor(s / 3600); s %= 3600; const m = Math.floor(s / 60); s %= 60;
-  el.innerHTML = [[d,"Tage"],[h,"Std"],[m,"Min"],[s,"Sek"]].map(([v,l]) => `<div><b>${String(v).padStart(2,"0")}</b><span>${l}</span></div>`).join("");
+  for (const c of CUP) if (!c.res && D(c.date) >= today) liste.push({ team:c.team, date:c.date, home:c.home, opp:c.opp, was:`Pokal, ${c.round}` });
+  return liste.sort((a,b) => a.date.localeCompare(b.date));
 }
 
-/* ===== Liga ===== */
-function gameRow(g){
+// ---------- Startseite ----------
+function zeigeStart(){
+  const next = naechsteSpiele();
+  $("#next").innerHTML = next.length ? next.map(n => `<li><b>${datum(n.date)} 20:00 Uhr</b><br>
+    ${TEAMS[n.team].name} ${n.home ? "gegen" : "bei"} ${esc(n.opp)}<br><small>${esc(n.was)}${n.home ? ", Heimspiel" : ""}</small></li>`).join("")
+    : "<li>Zurzeit keine Termine.</li>";
+  $("#last").innerHTML = GAMES.slice().sort((a,b) => b.date.localeCompare(a.date)).slice(0,4).map(g => {
+    const e = g.comp === "pokal" && g.team === "T2" ? "N" : ergebnis(g.sets);
+    return `<li>${datum(g.date)} ${TEAMS[g.team].name}${g.comp === "pokal" ? " (Pokal)" : ""}<br>
+      ${g.home ? "gegen" : "bei"} ${esc(g.opp)}: <span class="${e}">${g.sets[0]}:${g.sets[1]}</span></li>`;
+  }).join("");
+}
+
+// ---------- Tabellen & Spielplan ----------
+function spielZeile(g){
   const [md, date, home, opp, res, id] = g;
-  if (home === null) return `<div class="game free"><span class="d">${fmtShort(date)}<small>${md}. Spieltag</small></span><span class="who">spielfrei</span><span></span></div>`;
-  const right = res
-    ? `<span class="res"><span class="badge ${outcome(res)}" title="${OUT[outcome(res)]}">${outcome(res)}</span>${res[0]}:${res[1]}</span>`
-    : `<span class="res muted">–:–</span>`;
-  return `<div class="game"><span class="d">${fmtShort(date)}<small>${md}. Spieltag</small></span>
-    <span class="who"><span class="ha${home ? " h" : ""}">${home ? "Heim" : "Ausw"}</span><b>${esc(opp)}</b>${id ? `<a class="rep" href="${BDL}${id}.html" target="_blank" rel="noopener">Bericht</a>` : ""}</span>${right}</div>`;
+  if (home === null) return `<tr><td>${md}</td><td>${datum(date)}</td><td colspan="3" style="color:#888">spielfrei</td></tr>`;
+  return `<tr><td>${md}</td><td>${datum(date)}</td><td>${home ? "H" : "A"}</td><td>${esc(opp)}</td>
+    <td class="r">${res ? `<span class="${ergebnis(res)}">${res[0]}:${res[1]}</span>${id ? ` <a href="${BDL}${id}.html" target="_blank" rel="noopener" title="Spielbericht">»</a>` : ""}` : "-:-"}</td></tr>`;
 }
-function renderLeagues(){
-  $("#stamp-liga").textContent = `Stand ${STAND} · Quelle: badischedartliga.de`;
+function zeigeLiga(){
+  $("#stand").textContent = `Stand: ${STAND}, Quelle: badischedartliga.de`;
   $("#leagues").innerHTML = ["T1","T2"].map(t => {
-    const T = TEAMS[t], rows = TABLES[t], ours = ourRow(t);
-    const sched = SCHEDULE[t];
-    const played = sched.filter(g => g[4]);
-    const upcoming = sched.filter(g => !g[4]);
-    const first = [...played, ...upcoming.slice(0,3)];
-    const rest = upcoming.slice(3);
-    return `<article class="league">
-      <div class="league-head">
-        <h3>${T.name}<small>${T.league}</small></h3>
-        <div class="place"><b class="num">${ours[0]}.</b><span>Platz · ${ours[8]} Pkt</span></div>
-      </div>
-      <div class="league-body">
-        <div class="scroll"><table>
-          <thead><tr><th>#</th><th class="l">Team</th><th title="Spiele">Sp</th><th title="Siege">S</th><th title="Unentschieden">U</th><th title="Niederlagen">N</th><th>Sets</th><th>Legs</th><th>Pkt</th></tr></thead>
-          <tbody>${rows.map(r => `<tr class="${US.test(r[1]) ? "ours" : ""}"><td class="rank">${r[0]}</td><td class="l team">${esc(r[1])}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td><td class="pts">${r[8]}</td></tr>`).join("")}</tbody>
-        </table></div>
-        <div>
-          <p class="subhead">Spielplan</p>
-          <div class="sched">${first.map(gameRow).join("")}</div>
-          ${rest.length ? `<details class="more"><summary>Restliche ${rest.length} Spieltage</summary><div class="sched">${rest.map(gameRow).join("")}</div></details>` : ""}
-        </div>
-        <div class="links">
-          <a class="btn sm ghost" href="https://www.badischedartliga.de/index.php?id=tabelle-${T.code}" target="_blank" rel="noopener">Tabelle bei der BDL</a>
-          <a class="btn sm ghost" href="https://www.badischedartliga.de/plan-${T.code}" target="_blank" rel="noopener">Kompletter Spielplan</a>
-        </div>
-      </div>
-    </article>`;
+    const T = TEAMS[t], gespielt = SCHEDULE[t].filter(g => g[4]), offen = SCHEDULE[t].filter(g => !g[4]);
+    return `<div class="karte"><h3>${T.name} – ${T.league}</h3>
+    <div class="zwei">
+      <div class="scroll"><table class="liga-tab">
+        <thead><tr><th class="r">Pl.</th><th>Mannschaft</th><th class="r">Sp</th><th class="r">S</th><th class="r">U</th><th class="r">N</th><th class="r">Sets</th><th class="r">Legs</th><th class="r">Pkt</th></tr></thead>
+        <tbody>${TABLES[t].map(r => `<tr${US.test(r[1]) ? ' class="wir"' : ""}><td class="r">${r[0]}.</td><td>${esc(r[1])}</td><td class="r">${r[2]}</td><td class="r">${r[3]}</td><td class="r">${r[4]}</td><td class="r">${r[5]}</td><td class="r">${r[6]}</td><td class="r">${r[7]}</td><td class="r"><b>${r[8]}</b></td></tr>`).join("")}</tbody>
+      </table>
+      <p class="hinweis"><a href="https://www.badischedartliga.de/index.php?id=tabelle-${T.code}" target="_blank" rel="noopener">Tabelle bei der BDL</a> · <a href="https://www.badischedartliga.de/plan-${T.code}" target="_blank" rel="noopener">Spielplan bei der BDL</a></p></div>
+      <div class="scroll"><table>
+        <thead><tr><th>Sp.</th><th>Datum</th><th></th><th>Gegner</th><th class="r">Erg.</th></tr></thead>
+        <tbody>${[...gespielt, ...offen.slice(0,3)].map(spielZeile).join("")}</tbody>
+      </table>
+      ${offen.length > 3 ? `<details class="rest"><summary>restliche Spieltage anzeigen</summary><table><tbody>${offen.slice(3).map(spielZeile).join("")}</tbody></table></details>` : ""}</div>
+    </div></div>`;
   }).join("");
 
-  $("#cup").innerHTML = `<div class="league-head"><h3>BDL-Pokal<small>Saison 2026/27</small></h3><span class="tag gold">Pokal</span></div>
-    <div class="league-body"><div class="sched">${CUP.map(c => {
-      const right = c.res
-        ? `<span class="res"><span class="badge ${c.out ? "N" : outcome(c.res)}">${c.out ? "N" : outcome(c.res)}</span>${c.res[0]}:${c.res[1]}</span>`
-        : `<span class="res muted">–:–</span>`;
-      const note = c.out ? ` <span class="muted" style="font-size:.85rem">· ausgeschieden, Legs ${c.legs[0]}:${c.legs[1]}</span>` : "";
-      return `<div class="game"><span class="d">${fmtShort(c.date)}<small>${c.round}</small></span>
-        <span class="who"><span class="ha${c.home ? " h" : ""}">${TEAMS[c.team].name}</span><b>${c.home ? "gegen" : "bei"} ${esc(c.opp)}</b>${note}${c.id ? `<a class="rep" href="${BDL}${c.id}.html" target="_blank" rel="noopener">Bericht</a>` : ""}</span>${right}</div>`;
-    }).join("")}</div>
-    <div class="links"><a class="btn sm ghost" href="https://www.badischedartliga.de/index.php?id=pokal-2627" target="_blank" rel="noopener">Pokal bei der BDL</a></div></div>`;
+  $("#cup").innerHTML = `<thead><tr><th>Datum</th><th>Runde</th><th>Team</th><th>Gegner</th><th class="r">Erg.</th></tr></thead><tbody>${CUP.map(c => {
+    const e = c.res ? (c.out ? "N" : ergebnis(c.res)) : "";
+    return `<tr><td>${datum(c.date)}</td><td>${c.round}</td><td>${TEAMS[c.team].name}</td><td>${c.home ? "" : "bei "}${esc(c.opp)}${c.out ? ` <small>(ausgeschieden, Legs ${c.legs[0]}:${c.legs[1]})</small>` : ""}</td>
+      <td class="r">${c.res ? `<span class="${e}">${c.res[0]}:${c.res[1]}</span> <a href="${BDL}${c.id}.html" target="_blank" rel="noopener" title="Spielbericht">»</a>` : "-:-"}</td></tr>`;
+  }).join("")}</tbody>`;
 }
 
-/* ===== Statistik ===== */
+// ---------- Statistik ----------
 let fTeam = "all", fComp = "all", sortK = "pts", sortDir = -1, openPlayer = null;
 
-function computeStats(){
+function spieleImFilter(){
+  return GAMES.filter(g => (fComp === "all" || g.comp === "liga") && (fTeam === "all" || g.team === fTeam));
+}
+
+function berechneStatistik(){
   const P = new Map();
-  const get = (name, team) => {
-    if (!P.has(name)) P.set(name, { name, teams:new Set(), nights:new Set(), ew:0, el:0, dw:0, dl:0, lw:0, ll:0, mx:0, mxv:[], hf:[], sl:[], log:[] });
-    const p = P.get(name); p.teams.add(team); return p;
-  };
-  for (const g of GAMES) {
-    if (fComp === "liga" && g.comp !== "liga") continue;
-    if (fTeam !== "all" && g.team !== fTeam) continue;
+  for (const g of spieleImFilter()) {
     for (const [type, ours, theirs, legs, mx, hf, sl] of g.m) {
       const won = legs[0] > legs[1];
       ours.forEach((name, i) => {
-        const p = get(name, g.team);
-        p.nights.add(g.id);
+        if (!P.has(name)) P.set(name, { name, teams:new Set(), nights:new Set(), ew:0, el:0, dw:0, dl:0, lw:0, ll:0, mxv:[], hf:[], sl:[], log:[] });
+        const p = P.get(name);
+        p.teams.add(g.team); p.nights.add(g.id);
         if (type === "E") won ? p.ew++ : p.el++; else won ? p.dw++ : p.dl++;
         p.lw += legs[0]; p.ll += legs[1];
-        const myMx = (mx[i] || []), myHf = (hf[i] || []).map(Number);
-        p.mx += myMx.length; p.mxv.push(...myMx); p.hf.push(...myHf); p.sl.push(...sl.map(Number));
+        const myMx = mx[i] || [], myHf = (hf[i] || []).map(Number);
+        p.mxv.push(...myMx); p.hf.push(...myHf); p.sl.push(...sl.map(Number));
         const partner = type === "D" ? ours.filter(n => n !== name)[0] : null;
-        const extra = [...myMx.map(v => v === "180" ? "180" : `Max ${v}`), ...myHf.map(v => `HF ${v}`), ...sl.map(v => `${v}-Darter`)].join(" · ");
-        p.log.push({ date:g.date, opp:g.opp, comp:g.comp, type, partner, vs:theirs.join(" / "), legs, won, extra });
+        p.log.push({ date:g.date, opp:g.opp, comp:g.comp, type, partner, vs:theirs.join(" / "), legs, won, hl:chips(myMx, myHf, sl) });
       });
     }
   }
   return [...P.values()].map(p => ({
     ...p,
     gp: p.nights.size,
+    mx: p.mxv.length,
     ep: (p.ew + p.el) ? p.ew / (p.ew + p.el) : -1,
     ld: p.lw - p.ll,
     hfMax: p.hf.length ? Math.max(...p.hf) : 0,
@@ -861,180 +656,136 @@ function computeStats(){
   }));
 }
 
-function sortVal(p, k){
-  switch (k) {
-    case "name": return p.name;
-    case "ew": return p.ew * 100 - p.el;
-    case "dw": return p.dw * 100 - p.dl;
-    case "hf": return p.hfMax;
-    case "sl": return p.slMin ? -p.slMin : -999;   // kürzer ist besser
-    default: return p[k];
-  }
+function sortWert(p, k){
+  if (k === "name") return p.name;
+  if (k === "ew") return p.ew * 100 - p.el;
+  if (k === "dw") return p.dw * 100 - p.dl;
+  if (k === "hf") return p.hfMax;
+  if (k === "sl") return p.slMin ? -p.slMin : -999;   // kürzer ist besser
+  return p[k];
 }
 
-function renderLeaders(list){
-  const best = (fn, ok = () => true) => list.filter(ok).sort((a,b) => fn(b) - fn(a))[0];
-  const e = best(p => p.ew * 100 + p.ep);
-  const m = best(p => p.mx * 100 + p.pts, p => p.mx > 0);
-  const h = best(p => p.hfMax, p => p.hfMax > 0);
-  const s = best(p => -p.slMin, p => p.slMin > 0);
-  const tile = (k, v, n) => `<div class="leader"><div class="stripes" aria-hidden="true"></div><div class="k">${k}</div><div class="v num">${v}</div><div class="n">${n}</div></div>`;
-  $("#leaders").innerHTML = [
-    e ? tile("Meiste Einzelsiege", e.ew, esc(e.name)) : tile("Meiste Einzelsiege","–","noch keine"),
-    m ? tile("Meiste Maxima", m.mx, esc(m.name)) : tile("Meiste Maxima","–","noch keine"),
-    h ? tile("Höchstes Finish", h.hfMax, esc(h.name)) : tile("Höchstes Finish","–","noch keins"),
-    s ? tile("Kürzestes Leg", `${s.slMin}<small>Darts</small>`, esc(list.filter(p => p.slMin === s.slMin).map(p => p.name).join(", "))) : tile("Kürzestes Leg","–","noch keins")
-  ].join("");
-}
-
-function renderCards(list){
-  const top = list.slice().sort((a,b) => b.pts - a.pts || b.ep - a.ep);
-  $("#cards").innerHTML = top.map((p, i) => `
-    <button type="button" class="pcard" data-name="${esc(p.name)}" aria-label="Partien von ${esc(p.name)} anzeigen">
-      <div class="top"><span class="rank" aria-hidden="true">${i + 1}</span><span class="mono" aria-hidden="true">${initials(p.name)}</span>
-        <span class="nm">${esc(p.name)}<small>${p.team}</small></span></div>
-      <div class="grid">
-        <div class="hl"><b>${p.pts}</b><span>Punkte</span></div>
-        <div><b>${p.ew}–${p.el}</b><span>Einzel</span></div>
-        <div><b>${p.ep < 0 ? "–" : Math.round(p.ep * 100) + "%"}</b><span>Quote</span></div>
-        <div><b>${p.mx || "–"}</b><span>Max</span></div>
-      </div>
-      ${playerChips(p) ? `<div class="pc-hl">${playerChips(p)}</div>` : ""}
-    </button>`).join("");
-}
-
-function renderStats(){
-  const list = computeStats();
-  renderLeaders(list);
-  renderCards(list);
-  renderSeasonHighlights();
+function zeigeStatistik(){
+  const list = berechneStatistik();
   list.sort((a,b) => {
-    const x = sortVal(a, sortK), y = sortVal(b, sortK);
+    const x = sortWert(a, sortK), y = sortWert(b, sortK);
     if (typeof x === "string") return sortDir * -1 * x.localeCompare(y, "de");
     return sortDir * (x - y) || (b.pts - a.pts) || a.name.localeCompare(b.name, "de");
   });
   $("#stats tbody").innerHTML = list.map(p => {
-    const pct = p.ep < 0 ? "–" : Math.round(p.ep * 100) + "%";
-    const open = openPlayer === p.name;
-    const row = `<tr class="p${open ? " open" : ""}" tabindex="0" data-name="${esc(p.name)}" aria-expanded="${open}">
-      <td class="l name">${esc(p.name)}<small>${p.team}</small></td>
-      <td>${p.gp}</td>
-      <td>${p.ew}–${p.el}</td>
-      <td>${pct}${p.ep >= 0 ? `<span class="bar" aria-hidden="true"><i style="width:${Math.round(p.ep*100)}%"></i></span>` : ""}</td>
-      <td>${p.dw}–${p.dl}</td>
-      <td>${p.lw}:${p.ll}</td>
-      <td>${p.mx || "–"}</td>
-      <td>${p.hfMax || "–"}</td>
-      <td>${p.slMin || "–"}</td>
-      <td class="pts">${p.pts}</td></tr>`;
-    if (!open) return row;
-    const log = p.log.slice().sort((a,b) => a.date.localeCompare(b.date)).map(l =>
-      `<div><span class="t">${fmtShort(l.date)}${l.comp === "pokal" ? " Pokal" : ""}</span><span class="badge ${l.won ? "S" : "N"}">${l.won ? "S" : "N"}</span>
-       <span>${l.type === "D" ? `Doppel mit ${esc(l.partner)}` : "Einzel"} gegen ${esc(l.vs)} <span class="ex">(${esc(l.opp)})</span>${l.extra ? ` <span class="ex" style="color:var(--gold)">· ${esc(l.extra)}</span>` : ""}</span>
-       <span class="res" style="font-size:1.05rem">${l.legs[0]}:${l.legs[1]}</span></div>`).join("");
-    return row + `<tr class="log"><td colspan="10"><div class="loglist">${log}</div></td></tr>`;
+    const offen = openPlayer === p.name;
+    let html = `<tr class="p" tabindex="0" data-name="${esc(p.name)}" aria-expanded="${offen}">
+      <td class="name"><b>${esc(p.name)}</b> <small>${p.team}</small>${spielerChips(p) ? `<span class="hls">${spielerChips(p)}</span>` : ""}</td>
+      <td class="r">${p.gp}</td>
+      <td class="r">${p.ew}-${p.el}</td>
+      <td class="r">${p.ep < 0 ? "-" : Math.round(p.ep * 100) + " %"}</td>
+      <td class="r">${p.dw}-${p.dl}</td>
+      <td class="r">${p.lw}:${p.ll}</td>
+      <td class="r">${p.mx || "-"}</td>
+      <td class="r">${p.hfMax || "-"}</td>
+      <td class="r">${p.slMin || "-"}</td>
+      <td class="r"><b>${p.pts}</b></td></tr>`;
+    if (offen) {
+      html += `<tr class="log"><td colspan="10"><ul>${p.log.slice().sort((a,b) => a.date.localeCompare(b.date)).map(l =>
+        `<li>${datum(l.date)}${l.comp === "pokal" ? " (Pokal)" : ""}: ${l.type === "D" ? `Doppel mit ${esc(l.partner)}` : "Einzel"} gegen ${esc(l.vs)} (${esc(l.opp)}) –
+         <span class="${l.won ? "S" : "N"}">${l.legs[0]}:${l.legs[1]}</span> ${l.hl}</li>`).join("")}</ul></td></tr>`;
+    }
+    return html;
   }).join("");
   document.querySelectorAll("#stats th").forEach(th => {
     if (th.dataset.k === sortK) th.setAttribute("aria-sort", sortDir < 0 ? "descending" : "ascending");
     else th.removeAttribute("aria-sort");
   });
+  zeigeHighlights();
 }
 
-/* ===== Highlights ===== */
+// ---------- Highlights ----------
 const chip = (cls, txt) => `<span class="hl ${cls}">${txt}</span>`;
 const chips = (mx = [], hf = [], sl = []) => [
   ...mx.map(v => chip("max", v === "180" ? "180" : `Max ${v}`)),
   ...hf.map(v => chip("hf", `${v} Finish`)),
   ...sl.map(v => chip("sl", `${v}-Darter`))
 ].join("");
-function playerChips(p){
-  const n180 = p.mxv.filter(v => v === "180").length;
+function spielerChips(p){
+  // gleiche Highlights zusammenfassen, z.B. "2x 16-Darter"
+  const gruppe = (werte, cls, fmt) => {
+    const n = new Map(); werte.forEach(v => n.set(v, (n.get(v) || 0) + 1));
+    return [...n].map(([v, k]) => chip(cls, (k > 1 ? `${k}x ` : "") + fmt(v)));
+  };
   return [
-    n180 ? chip("max", n180 > 1 ? `${n180}× 180` : "180") : "",
-    ...p.mxv.filter(v => v !== "180").map(v => chip("max", `Max ${v}`)),
-    ...p.hf.slice().sort((a,b) => b - a).map(v => chip("hf", `${v} Finish`)),
-    ...p.sl.slice().sort((a,b) => a - b).map(v => chip("sl", `${v}-Darter`))
+    ...gruppe(p.mxv.slice().sort((a,b) => b - a), "max", v => v === "180" ? "180" : `Max ${v}`),
+    ...gruppe(p.hf.slice().sort((a,b) => b - a), "hf", v => `${v} Finish`),
+    ...gruppe(p.sl.slice().sort((a,b) => a - b), "sl", v => `${v}-Darter`)
   ].join("");
 }
-// Alle eigenen Highlights der Saison, passend zu den Filtern
-function renderSeasonHighlights(){
+function zeigeHighlights(){
   const mx = [], hf = [], sl = [];
-  for (const g of GAMES) {
-    if (fComp === "liga" && g.comp !== "liga") continue;
-    if (fTeam !== "all" && g.team !== fTeam) continue;
-    const where = `${fmtShort(g.date)} · ${g.comp === "pokal" ? "Pokal " : ""}${g.home ? "gegen" : "bei"} ${esc(g.opp)}`;
+  for (const g of spieleImFilter()) {
+    const wo = `${datum(g.date)} ${g.comp === "pokal" ? "Pokal " : ""}${g.home ? "gegen" : "bei"} ${esc(g.opp)}`;
     for (const [type, ours, , , m, h, s] of g.m) {
       ours.forEach((name, i) => {
-        (m[i] || []).forEach(v => mx.push({ v, who:name, where, date:g.date }));
-        (h[i] || []).forEach(v => hf.push({ v:+v, who:name, where, date:g.date }));
+        (m[i] || []).forEach(v => mx.push({ v, wer:name, wo, date:g.date }));
+        (h[i] || []).forEach(v => hf.push({ v:+v, wer:name, wo, date:g.date }));
       });
-      s.forEach(v => sl.push({ v:+v, who:ours.join(" / "), where, date:g.date }));
+      s.forEach(v => sl.push({ v:+v, wer:ours.join(" / "), wo, date:g.date }));
     }
   }
   mx.sort((a,b) => a.date.localeCompare(b.date));
   hf.sort((a,b) => b.v - a.v);
   sl.sort((a,b) => a.v - b.v || a.date.localeCompare(b.date));
-  const col = (title, list, cls, fmt) => `<div class="hlcol"><h4>${title}<span>${list.length}</span></h4>${
-    list.length ? `<ol>${list.map(x => `<li>${chip(cls, fmt(x.v))}<span><b>${esc(x.who)}</b><small>${x.where}</small></span></li>`).join("")}</ol>` : `<p class="none">Noch keine in dieser Auswahl.</p>`}</div>`;
+  const spalte = (titel, list, cls, fmt) => `<div><h4>${titel} (${list.length})</h4>${list.length
+    ? `<ol>${list.map(x => `<li>${chip(cls, fmt(x.v))} <b>${esc(x.wer)}</b><br><small>${x.wo}</small></li>`).join("")}</ol>`
+    : "<p><small>noch keine</small></p>"}</div>`;
   $("#season-hl").innerHTML =
-    col("Maxima", mx, "max", v => v === "180" ? "180" : `Max ${v}`) +
-    col("High Finishes", hf, "hf", v => v) +
-    col("Short Legs", sl, "sl", v => `${v} Darts`);
+    spalte("Maxima", mx, "max", v => v === "180" ? "180" : `Max ${v}`) +
+    spalte("High Finishes", hf, "hf", v => v) +
+    spalte("Short Legs", sl, "sl", v => `${v} Darts`);
 }
 
-function renderReports(){
-  const games = GAMES.slice().sort((a,b) => b.date.localeCompare(a.date));
-  const side = (players, mx, hf, sl) =>
-    players.map((p, i) => `<div class="pl">${esc(p)}${(mx[i] || []).length || (hf[i] || []).length ? `<span class="hls">${chips(mx[i], hf[i])}</span>` : ""}</div>`).join("")
+// ---------- Spielberichte ----------
+function zeigeBerichte(){
+  const seite = (spieler, mx, hf, sl) =>
+    spieler.map((p, i) => `<div class="pl">${esc(p)}${(mx[i] || []).length || (hf[i] || []).length ? `<span class="hls">${chips(mx[i], hf[i])}</span>` : ""}</div>`).join("")
     + (sl.length ? `<span class="hls">${chips([], [], sl)}</span>` : "");
-  $("#reports").innerHTML = games.map(g => {
-    const o = g.comp === "pokal" && g.team === "T2" ? "N" : outcome(g.sets);
-    const ourMx = g.m.flatMap(m => m[4].flat()), ourHf = g.m.flatMap(m => m[5].flat()), ourSl = g.m.flatMap(m => m[6]);
-    const rows = g.m.map(([type, ours, theirs, legs, mx, hf, sl, omx = [], ohf = [], osl = []]) => {
-      const w = legs[0] > legs[1];
-      return `<tr><td class="l mt">${type === "E" ? "Einzel" : "Doppel"}</td><td class="l us">${side(ours, mx, hf, sl)}</td>
-        <td class="sc"><span class="badge ${w ? "S" : "N"}" style="margin-right:6px">${w ? "S" : "N"}</span>${legs[0]}:${legs[1]}</td>
-        <td class="l them">${side(theirs, omx, ohf, osl)}</td></tr>`;
-    }).join("");
-    return `<details class="report">
-      <summary><span class="meta">${fmtShort(g.date)}<small>${g.comp === "pokal" ? "Pokal" : TEAMS[g.team].league}</small></span>
-        <span class="opp">${TEAMS[g.team].name} ${g.home ? "gegen" : "bei"} ${esc(g.opp)}<small>${g.home ? "Heim" : "Auswärts"} · Legs ${g.legs[0]}:${g.legs[1]}</small>${ourMx.length + ourHf.length + ourSl.length ? `<span class="hls">${chips(ourMx, ourHf, ourSl)}</span>` : ""}</span>
-        <span class="res"><span class="badge ${o}">${o}</span>${g.sets[0]}:${g.sets[1]}</span></summary>
-      <div class="body"><div class="scroll"><table class="rtable"><thead><tr><th class="l mt"></th><th class="l">White Tigers</th><th style="text-align:center">Legs</th><th class="l">${esc(g.opp)}</th></tr></thead><tbody>${rows}</tbody></table></div>
-        <p class="note"><a href="${BDL}${g.id}.html" target="_blank" rel="noopener">Original-Spielbericht bei der BDL</a></p></div>
+  $("#reports").innerHTML = GAMES.slice().sort((a,b) => b.date.localeCompare(a.date)).map(g => {
+    const e = g.comp === "pokal" && g.team === "T2" ? "N" : ergebnis(g.sets);
+    const alle = chips(g.m.flatMap(m => m[4].flat()), g.m.flatMap(m => m[5].flat()), g.m.flatMap(m => m[6]));
+    const zeilen = g.m.map(([type, ours, theirs, legs, mx, hf, sl, omx = [], ohf = [], osl = []]) =>
+      `<tr><td class="art">${type === "E" ? "Einzel" : "Doppel"}</td><td>${seite(ours, mx, hf, sl)}</td>
+        <td class="c"><span class="${legs[0] > legs[1] ? "S" : "N"}">${legs[0]}:${legs[1]}</span></td>
+        <td class="them">${seite(theirs, omx, ohf, osl)}</td></tr>`).join("");
+    return `<details class="bericht">
+      <summary><b>${datum(g.date)}</b> ${TEAMS[g.team].name} ${g.home ? "gegen" : "bei"} ${esc(g.opp)} ${g.comp === "pokal" ? "(Pokal)" : ""} –
+        <span class="${e}">${g.sets[0]}:${g.sets[1]}</span> <small>(Legs ${g.legs[0]}:${g.legs[1]})</small>${alle ? `<span class="hls">${alle}</span>` : ""}</summary>
+      <div class="body"><div class="scroll"><table class="rtable">
+        <thead><tr><th class="art"></th><th>White Tigers</th><th class="c">Legs</th><th>${esc(g.opp)}</th></tr></thead>
+        <tbody>${zeilen}</tbody></table></div>
+        <p class="hinweis"><a href="${BDL}${g.id}.html" target="_blank" rel="noopener">Original-Spielbericht bei der BDL</a></p></div>
     </details>`;
   }).join("");
 }
 
-/* ===== Verein & Galerie ===== */
-function renderClub(){
+// ---------- Verein & Bilder ----------
+function zeigeVerein(){
   // Kader = alle Spieler, die laut Spielbericht für das jeweilige Team gespielt haben
-  const roster = { T1:new Set(), T2:new Set() };
-  for (const g of GAMES) for (const m of g.m) m[1].forEach(n => roster[g.team].add(n));
-  $("#family").innerHTML = ["T1","T2"].map(t => `<div><p class="t">${TEAMS[t].name}<span>${TEAMS[t].league}</span></p>
-    <div class="family">${[...roster[t]].sort((a,b) => a.localeCompare(b,"de")).map(n => `<span>${esc(n)}</span>`).join("")}</div></div>`).join("");
-  $("#gallery").innerHTML = PHOTOS.map(([f, cap, cls], i) =>
-    `<button type="button" class="${cls || ""}" data-i="${i}" aria-label="Bild vergrößern: ${esc(cap)}"><img src="assets/${f}" alt="${esc(cap)}" loading="lazy"></button>`).join("");
+  const kader = { T1:new Set(), T2:new Set() };
+  for (const g of GAMES) for (const m of g.m) m[1].forEach(n => kader[g.team].add(n));
+  $("#family").innerHTML = ["T1","T2"].map(t => `<p class="kader"><b>${TEAMS[t].name} (${TEAMS[t].league})</b> ${[...kader[t]].sort((a,b) => a.localeCompare(b,"de")).map(esc).join(", ")}</p>`).join("");
+  $("#gallery").innerHTML = PHOTOS.map(([f, cap], i) =>
+    `<button type="button" data-i="${i}" title="${esc(cap)}"><img src="assets/${f}" alt="${esc(cap)}" loading="lazy"></button>`).join("");
 }
 
-/* ===== Events ===== */
-function setPressed(group, btn){ group.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === btn)); }
-document.querySelectorAll("[data-team]").forEach(b => b.addEventListener("click", () => { fTeam = b.dataset.team; setPressed(b.parentNode, b); renderStats(); }));
-document.querySelectorAll("[data-comp]").forEach(b => b.addEventListener("click", () => { fComp = b.dataset.comp; setPressed(b.parentNode, b); renderStats(); }));
+// ---------- Ereignisse ----------
+$("#f-team").addEventListener("change", e => { fTeam = e.target.value; zeigeStatistik(); });
+$("#f-comp").addEventListener("change", e => { fComp = e.target.value; zeigeStatistik(); });
 document.querySelectorAll("#stats th button").forEach(b => b.addEventListener("click", () => {
   const k = b.parentNode.dataset.k;
   if (sortK === k) sortDir *= -1; else { sortK = k; sortDir = k === "name" ? 1 : -1; }
-  renderStats();
+  zeigeStatistik();
 }));
-const toggleRow = name => { openPlayer = openPlayer === name ? null : name; renderStats(); };
+const toggleRow = name => { openPlayer = openPlayer === name ? null : name; zeigeStatistik(); };
 $("#stats tbody").addEventListener("click", e => { const tr = e.target.closest("tr.p"); if (tr) toggleRow(tr.dataset.name); });
 $("#stats tbody").addEventListener("keydown", e => { const tr = e.target.closest("tr.p"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggleRow(tr.dataset.name); } });
-$("#cards").addEventListener("click", e => {
-  const c = e.target.closest(".pcard"); if (!c) return;
-  openPlayer = c.dataset.name; renderStats();
-  const row = [...document.querySelectorAll("#stats tr.p")].find(r => r.dataset.name === openPlayer);
-  if (row) row.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
-});
 
 const lb = $("#lightbox");
 $("#gallery").addEventListener("click", e => {
@@ -1048,15 +799,7 @@ $("#lb-close").addEventListener("click", closeLb);
 lb.addEventListener("click", e => { if (e.target === lb) closeLb(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !lb.hidden) closeLb(); });
 
-document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", () => {
-  const el = document.getElementById(b.dataset.copy);
-  const done = () => { b.textContent = "Kopiert"; setTimeout(() => b.textContent = "Kopieren", 1600); };
-  navigator.clipboard.writeText(el.textContent).then(done).catch(() => {
-    const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
-  });
-}));
-
-renderTop(); renderMatchCenter(); renderLeagues(); renderStats(); renderReports(); renderClub();
+zeigeStart(); zeigeLiga(); zeigeStatistik(); zeigeBerichte(); zeigeVerein();
 </script>
 </body>
 </html>
